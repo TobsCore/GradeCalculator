@@ -36,15 +36,15 @@ class GradeValTest extends FunSuite with BeforeAndAfter {
   }
 
   test("Test if passed grade is evaluated correctly") {
-    assert(grade.isPass())
-    assert(!grade.isFail())
+    assert(grade.isPass.get)
+    assert(!grade.isFail.get)
   }
 
   test("Testing if failed grade is evaluated corrrectly") {
-    assert(failGrade.isFail())
+    assert(failGrade.isFail.get)
   }
 
   test("Testing if almost failed, but still passed grade is evaluated correctly") {
-    assert(almostFailButStillPass.isPass())
+    assert(almostFailButStillPass.isPass.get)
   }
 }
