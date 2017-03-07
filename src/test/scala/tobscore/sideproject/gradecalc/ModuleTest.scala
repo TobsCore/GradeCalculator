@@ -105,4 +105,62 @@ class ModuleTest extends FunSuite with BeforeAndAfter {
       moduleEmpty.result.get
     }
   }
+
+  test("Calculating result of 2 times same subject with weight 2") {
+    moduleEmpty += List(subjectPassGrade2, subjectPassGrade2)
+    assertResult(ExplicitGrade(2.3)) {
+      moduleEmpty.result.get
+    }
+  }
+
+  test("Calculating result of same grade with different weight") {
+    val testSub = Subject("Test", Some(ExplicitGrade(2.3)))
+    moduleEmpty += List(testSub, subjectPassGrade2)
+    assertResult(ExplicitGrade(2.3)) {
+      moduleEmpty.result.get
+    }
+  }
+
+  test("Calculating 3 different subjects and grade, increasing") {
+    val sub1 = Subject("Test 1", Some(ExplicitGrade(1.7)))
+    val sub2 = Subject("Test 2", Some(ExplicitGrade(2.0)))
+    val sub3 = Subject("Test 3", Some(ExplicitGrade(2.3)))
+    moduleEmpty += List(sub1, sub2, sub3)
+
+    assertResult(ExplicitGrade(2.0)) {
+      moduleEmpty.result.get
+    }
+  }
+
+  test("Calculating 2 different grades laying next to each other") {
+    val sub1 = Subject("Test 1", Some(ExplicitGrade(1.7)))
+    val sub2 = Subject("Test 2", Some(ExplicitGrade(2.0)))
+
+    moduleEmpty += List(sub1, sub2)
+    assertResult(ExplicitGrade(1.7)) {
+      moduleEmpty.result.get
+    }
+  }
+
+  test("Calculating a two subjects, one with weight of 2, one with weight of 1") {
+    val sub1 = Subject("Test", Some(ExplicitGrade(3.3)))
+    moduleEmpty += List(sub1, subjectPassGrade2)
+
+    assertResult(ExplicitGrade(2.7)) {
+      moduleEmpty.result.get
+    }
+  }
+
+  test("Lenas Recht-Rhetorik Fall") {
+    val rhetorik = Subject("Rhetorik", Some(ExplicitGrade(1.3)))
+    val recht = Subject("Recht", Some(ExplicitGrade(1.7)))
+    val interculturalCommunication = Subject("Intercultural Communication", Some(Pass(true)))
+
+    moduleEmpty += List(rhetorik, recht)
+    assertResult(ExplicitGrade(1.3)) {
+      moduleEmpty.result.get
+    }
+  }
+
 }
+

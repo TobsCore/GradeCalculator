@@ -40,7 +40,7 @@ class Module(name: String, professor: String) {
         if (subject.result.get.isInstanceOf[ExplicitGrade]) {
           val subjectGrade: ExplicitGrade = subject.result.get.asInstanceOf[ExplicitGrade]
           weightSum += subject.weight
-          gradeAccumulator += subjectGrade.grade
+          gradeAccumulator += subject.weight * subjectGrade.grade
         }
       }
       val averageGrade:Int = (gradeAccumulator / weightSum).toInt
