@@ -4,11 +4,10 @@ package tobscore.sideprojects.gradecalc.grade
   * Created by tobscore on 07.03.17.
   */
 trait Grade extends PassFail {
-  def grade: Double
-  require(grade >= 1.0 && grade <= 5.0)
+  def grade: Int
 
   override def isPass(): Option[Boolean] = {
-    Some(grade <= 4.0)
+    Some(grade <= 12)
   }
 
   override def toString(): String = {
@@ -16,6 +15,6 @@ trait Grade extends PassFail {
   }
 
   override def isFail(): Option[Boolean] = {
-    Some(grade > 4.0)
+    Some(grade > 12)
   }
 }

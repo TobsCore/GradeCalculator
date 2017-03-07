@@ -43,7 +43,7 @@ class Module(name: String, professor: String) {
           gradeAccumulator += subjectGrade.grade
         }
       }
-      val averageGrade = gradeAccumulator / weightSum
+      val averageGrade:Int = (gradeAccumulator / weightSum).toInt
       Some(ExplicitGrade(averageGrade))
     } else {
       None

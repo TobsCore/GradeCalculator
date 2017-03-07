@@ -19,7 +19,7 @@ class ExplicitGradeValTest extends FunSuite with BeforeAndAfter {
   }
 
   test("Testing default grade value") {
-    assert(grade.grade.equals(1.0))
+    assert(grade.get.equals(1.0))
   }
 
 
@@ -46,5 +46,25 @@ class ExplicitGradeValTest extends FunSuite with BeforeAndAfter {
 
   test("Testing if almost failed, but still passed grade is evaluated correctly") {
     assert(almostFailButStillPass.isPass.get)
+  }
+
+  test("Testing passing integers into class (1.0)") {
+    assertResult(ExplicitGrade(1.0)) {
+      ExplicitGrade(3)
+    }
+  }
+
+  test("Testing passing integers into class (5.0)") {
+    assertResult(ExplicitGrade(5.0)) {
+      ExplicitGrade(15)
+    }
+  }
+
+  test("Testing passing out of bounds integer into class (Too small)") {
+    assertThrows[IllegalArgumentException](ExplicitGrade(2))
+  }
+
+  test("Testing passing out of bounds integer into class (Too big)") {
+    assertThrows[IllegalArgumentException](ExplicitGrade(16))
   }
 }

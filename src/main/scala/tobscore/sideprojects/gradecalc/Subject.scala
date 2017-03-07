@@ -14,7 +14,6 @@ case class Subject[T <: PassFail](name: String, var result: Option[T] = None, we
     case Some(pass) => result.get.isPass
   }
 
-
   override def isFail: Option[Boolean] = result match {
     case None => None
     case Some(pass) => result.get.isFail
