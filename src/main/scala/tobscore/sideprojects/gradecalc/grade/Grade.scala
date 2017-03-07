@@ -1,14 +1,15 @@
 package tobscore.sideprojects.gradecalc.grade
 
 /**
-  * Created by Tobias Kerst on 05.03.17.
+  * Created by tobscore on 07.03.17.
   */
-case class Grade(val grade: Double) extends PassFail {
+trait Grade extends PassFail {
+  def grade: Double
+  require(grade >= 1.0 && grade <= 5.0)
+
   override def isPass(): Option[Boolean] = {
     Some(grade <= 4.0)
   }
-
-  require(List(1.0, 1.3, 1.7, 2.0, 2.3, 2.7, 3.0, 3.3, 3.7, 4.0, 4.3, 4.7, 5.0).contains(grade), s"Grade $grade must be between 1.0 and 5.0")
 
   override def toString(): String = {
     grade.toString

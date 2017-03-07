@@ -1,21 +1,21 @@
 package tobscore.sideproject.gradecalc
 
 import org.scalatest.{BeforeAndAfter, FunSuite}
-import tobscore.sideprojects.gradecalc.grade.Grade
+import tobscore.sideprojects.gradecalc.grade.ExplicitGrade
 
 /**
   * Created by tobscore on 05.03.17.
   */
-class GradeValTest extends FunSuite with BeforeAndAfter {
+class ExplicitGradeValTest extends FunSuite with BeforeAndAfter {
 
-  var grade: Grade = _
-  var failGrade: Grade = _
-  var almostFailButStillPass: Grade = _
+  var grade: ExplicitGrade = _
+  var failGrade: ExplicitGrade = _
+  var almostFailButStillPass: ExplicitGrade = _
 
   before {
-    grade = new Grade(1.0)
-    failGrade = new Grade(4.3)
-    almostFailButStillPass = new Grade(4.0)
+    grade = new ExplicitGrade(1.0)
+    failGrade = new ExplicitGrade(4.3)
+    almostFailButStillPass = new ExplicitGrade(4.0)
   }
 
   test("Testing default grade value") {
@@ -24,15 +24,15 @@ class GradeValTest extends FunSuite with BeforeAndAfter {
 
 
   test("Testing grade value too low (< 1.0)") {
-    assertThrows[IllegalArgumentException](new Grade(0.7))
+    assertThrows[IllegalArgumentException](new ExplicitGrade(0.7))
   }
 
   test("Testing grade value too high (> 5.0)") {
-    assertThrows[IllegalArgumentException](new Grade(5.3))
+    assertThrows[IllegalArgumentException](new ExplicitGrade(5.3))
   }
 
   test("Testing grade value in scope but still illegal value") {
-    assertThrows[IllegalArgumentException](new Grade(1.5))
+    assertThrows[IllegalArgumentException](new ExplicitGrade(1.5))
   }
 
   test("Test if passed grade is evaluated correctly") {
