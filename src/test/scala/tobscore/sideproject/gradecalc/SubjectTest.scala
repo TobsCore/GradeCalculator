@@ -2,7 +2,7 @@ package tobscore.sideproject.gradecalc
 
 import org.scalatest.{BeforeAndAfter, FunSuite}
 import tobscore.sideprojects.gradecalc.{Professor, Subject}
-import tobscore.sideprojects.gradecalc.grade.{Fail, Grade, Pass}
+import tobscore.sideprojects.gradecalc.grade.{Fail, FailPass, Grade, Pass}
 
 /**
   * Created by Tobias Kerst on 06.03.17.
@@ -11,10 +11,10 @@ class SubjectTest extends FunSuite with BeforeAndAfter {
 
   var inMemoryDatabases: Subject[Grade] = _
   var bigDataEngineering: Subject[Grade] = _
-  var computerVisionLab: Subject[Fail] = _
+  var computerVisionLab: Subject[FailPass] = _
   var rzBetrieb: Subject[Grade] = _
-  var rhetorik: Subject[Pass] = _
-  var recht: Subject[Pass] = _
+  var rhetorik: Subject[FailPass] = _
+  var recht: Subject[FailPass] = _
 
   var ex: Subject[Grade] = _
 

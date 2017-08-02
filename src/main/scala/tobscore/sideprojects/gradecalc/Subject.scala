@@ -1,11 +1,11 @@
 package tobscore.sideprojects.gradecalc
 
-import tobscore.sideprojects.gradecalc.grade.PassFail
+import tobscore.sideprojects.gradecalc.grade.Passable
 
 /**
   * Created by Tobias Kerst on 06.03.17.
   */
-case class Subject[T <: PassFail](name: String, var result: Option[T] = None, weight: Int = 1, attempts: Int = 1, var instructor: Option[Professor] = None) {
+case class Subject[T <: Passable](name: String, var result: Option[T], weight: Int = 1, attempts: Int = 1, var instructor: Option[Professor] = None) {
   require(weight >= 0, "Weight cannot be less than 0")
   var identifier: String = _
 

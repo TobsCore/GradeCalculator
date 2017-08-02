@@ -2,7 +2,7 @@ package tobscore.sideproject.gradecalc
 
 import org.scalatest.{BeforeAndAfter, FunSuite}
 import tobscore.sideprojects.gradecalc.{Module, Professor, Subject}
-import tobscore.sideprojects.gradecalc.grade.{Fail, Grade, Pass, PassFail}
+import tobscore.sideprojects.gradecalc.grade.{Fail, Grade, Pass, Passable}
 
 import scala.collection.mutable.ListBuffer
 
@@ -85,35 +85,35 @@ class ModuleTest extends FunSuite with BeforeAndAfter {
     }
   }
 
-  ignore("Calculating result of 1 graded subject") {
+  test("Calculating result of 1 graded subject") {
     moduleEmpty += subjectPassGrade1
     assertResult(Grade(1.3)) {
       moduleEmpty.result.get
     }
   }
 
-  ignore("Calculating result of 2 graded subjects (the same)") {
+  test("Calculating result of 2 graded subjects (the same)") {
     moduleEmpty += List(subjectPassGrade1, subjectPassGrade1)
     assertResult(Grade(1.3)) {
       moduleEmpty.result.get
     }
   }
 
-  ignore("Calculating result of 2 different subjects with even grade") {
+  test("Calculating result of 2 different subjects with even grade") {
     moduleEmpty += List(subjectPassGrade1, subjectPassGrade3)
-    assertResult(Grade(1.7)) {
+    assertResult(Grade(1.65)) {
       moduleEmpty.result.get
     }
   }
 
-  ignore("Calculating result of 2 times same subject with weight 2") {
+  test("Calculating result of 2 times same subject with weight 2") {
     moduleEmpty += List(subjectPassGrade2, subjectPassGrade2)
     assertResult(Grade(2.3)) {
       moduleEmpty.result.get
     }
   }
 
-  ignore("Calculating result of same grade with different weight") {
+  test("Calculating result of same grade with different weight") {
     val testSub = Subject("Test", Some(Grade(2.3)))
     moduleEmpty += List(testSub, subjectPassGrade2)
     assertResult(Grade(2.3)) {
@@ -121,7 +121,7 @@ class ModuleTest extends FunSuite with BeforeAndAfter {
     }
   }
 
-  ignore("Calculating 3 different subjects and grade, increasing") {
+  test("Calculating 3 different subjects and grade, increasing") {
     val sub1 = Subject("Test 1", Some(Grade(1.7)))
     val sub2 = Subject("Test 2", Some(Grade(2.0)))
     val sub3 = Subject("Test 3", Some(Grade(2.3)))
@@ -132,32 +132,33 @@ class ModuleTest extends FunSuite with BeforeAndAfter {
     }
   }
 
-  ignore("Calculating 2 different grades laying next to each other") {
+  test("Calculating 2 different grades laying next to each other") {
     val sub1 = Subject("Test 1", Some(Grade(1.7)))
-    val sub2 = Subject("Test 2", Some(Grade(2.0)))
+    val sub2 = Subject("Test 2", Some(Grade(1.3)))
 
     moduleEmpty += List(sub1, sub2)
-    assertResult(Grade(1.7)) {
+    assertResult(Grade(1.5)) {
       moduleEmpty.result.get
     }
   }
 
-  ignore("Calculating a two subjects, one with weight of 2, one with weight of 1") {
-    val sub1 = Subject("Test", Some(Grade(3.3)))
+  ignore("Calculating a two subjects with same grade, one with weight of 2, one with weight of 1") {
+    val sub1 = Subject("Test 1", Some(Grade(3.3)), weight = 1)
+    val sub2 = Subject("Test 2", Some(Grade(3.3)), weight = 2)
     moduleEmpty += List(sub1, subjectPassGrade2)
 
-    assertResult(Grade(2.7)) {
+    assertResult(Grade(3.3)) {
       moduleEmpty.result.get
     }
   }
 
-  ignore("Lenas Recht-Rhetorik Fall") {
+  test("Lenas Recht-Rhetorik Fall") {
     val rhetorik = Subject("Rhetorik", Some(Grade(1.3)))
     val recht = Subject("Recht", Some(Grade(1.7)))
     val interculturalCommunication = Subject("Intercultural Communication", Some(Pass()))
 
     moduleEmpty += List(rhetorik, recht, interculturalCommunication)
-    assertResult(Grade(1.3)) {
+    assertResult(Grade(1.5)) {
       moduleEmpty.result.get
     }
   }

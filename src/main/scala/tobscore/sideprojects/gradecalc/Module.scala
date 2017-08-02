@@ -1,6 +1,6 @@
 package tobscore.sideprojects.gradecalc
 
-import tobscore.sideprojects.gradecalc.grade.{Grade,Fail, Pass, PassFail}
+import tobscore.sideprojects.gradecalc.grade.{Grade,Fail, Pass, Passable}
 
 import scala.util.control.Breaks._
 import scala.collection.mutable.ListBuffer
@@ -11,7 +11,7 @@ import scala.collection.mutable.ListBuffer
 class Module(name: String, professor: String) {
 
 
-  def result: scala.Option[_ <: PassFail] = {
+  def result: scala.Option[_ <: Passable] = {
     def containsFailedSubject(): Boolean = {
       subjects.filter(_.isFail.getOrElse(true)).nonEmpty
     }
@@ -19,9 +19,9 @@ class Module(name: String, professor: String) {
       subjects.map(_.result.get).filter(_.isInstanceOf[Grade]).nonEmpty
     }
 
-    var gradeAccumulator: Int = 0
+    var gradeAccumulator: Double = 0
     var gradeWeight: Int = 0
-    var result: Option[_ <: PassFail] = None
+    var result: Option[_ <: Passable] = None
 
     if (subjects.isEmpty) {
       None
@@ -44,22 +44,22 @@ class Module(name: String, professor: String) {
           case _ => {}
         }
       }
-      val averageGrade:Int = (gradeAccumulator / weightSum).toInt
+      val averageGrade: Double = (gradeAccumulator / weightSum)
       Some(Grade(averageGrade))
     } else {
       None
     }
   }
 
-  def +=(subject: Subject[_ <: PassFail]): Unit = {
+  def +=(subject: Subject[_ <: Passable]): Unit = {
     subjects += subject
   }
 
-  def +=(subjectList: List[Subject[_ <: PassFail]]): Unit = {
+  def +=(subjectList: List[Subject[_ <: Passable]]): Unit = {
     subjects ++= subjectList
   }
 
-  var subjects: ListBuffer[Subject[_ <: PassFail]] = new ListBuffer[Subject[_ <: PassFail]]()
+  var subjects: ListBuffer[Subject[_ <: Passable]] = new ListBuffer[Subject[_ <: Passable]]()
 
   def size: Int = subjects.size
 }
