@@ -63,4 +63,18 @@ class SubjectTest extends FunSuite with BeforeAndAfter {
       tempSubject.result.get
     }
   }
+
+  test("Test Subject for module") {
+    val subjectPassGrade = Subject[Grade]("General Webtechnologies", Some(Grade(1.3)))
+    assertResult(Grade(1.3)) {
+      subjectPassGrade.result.get
+    }
+  }
+
+  test("Empty Grade") {
+    val exSubject = new Subject[Grade]("Some example subject", None)
+    assertResult(None) {
+      exSubject.result
+    }
+  }
 }

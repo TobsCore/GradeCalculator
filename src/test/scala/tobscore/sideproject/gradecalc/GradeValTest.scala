@@ -22,6 +22,20 @@ class GradeValTest extends FunSuite with BeforeAndAfter {
     assert(grade.get === 1.0)
   }
 
+  test("Testing passing grade") {
+    val testGrade = new Grade(1.3)
+    assertResult(1.3) {
+      testGrade.get()
+    }
+  }
+
+  test("Almost failing grade (4.0)") {
+    val testGrade = new Grade(4.0)
+    assertResult(4.0) {
+      testGrade.get()
+    }
+  }
+
 
   test("Testing grade value too low (< 1.0)") {
     assertThrows[IllegalArgumentException](new Grade(0.7))

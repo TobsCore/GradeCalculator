@@ -142,10 +142,10 @@ class ModuleTest extends FunSuite with BeforeAndAfter {
     }
   }
 
-  ignore("Calculating a two subjects with same grade, one with weight of 2, one with weight of 1") {
+  test("Calculating a two subjects with same grade, one with weight of 2, one with weight of 1") {
     val sub1 = Subject("Test 1", Some(Grade(3.3)), weight = 1)
     val sub2 = Subject("Test 2", Some(Grade(3.3)), weight = 2)
-    moduleEmpty += List(sub1, subjectPassGrade2)
+    moduleEmpty += List(sub1, sub2)
 
     assertResult(Grade(3.3)) {
       moduleEmpty.result.get

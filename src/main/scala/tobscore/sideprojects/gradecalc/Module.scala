@@ -1,6 +1,6 @@
 package tobscore.sideprojects.gradecalc
 
-import tobscore.sideprojects.gradecalc.grade.{Grade,Fail, Pass, Passable}
+import tobscore.sideprojects.gradecalc.grade.{Grade, Fail, Pass, Passable}
 
 import scala.util.control.Breaks._
 import scala.collection.mutable.ListBuffer
@@ -15,6 +15,7 @@ class Module(name: String, professor: String) {
     def containsFailedSubject(): Boolean = {
       subjects.filter(_.isFail.getOrElse(true)).nonEmpty
     }
+
     def containsGrades(): Boolean = {
       subjects.map(_.result.get).filter(_.isInstanceOf[Grade]).nonEmpty
     }
@@ -32,8 +33,8 @@ class Module(name: String, professor: String) {
     } else if (containsGrades()) {
 
       var weightSum = 0
-      var gradeAccumulator = 0.0
-      subjects.map(_.result.get).filter(_.isInstanceOf[Grade]).map(_.asInstanceOf[Grade]).foldLeft(0.0)((a:Double, b: Grade) => b.grade + a)
+      var gradeAccumulator: Int = 0
+      subjects.map(_.result.get).filter(_.isInstanceOf[Grade]).map(_.asInstanceOf[Grade]).foldLeft(0.0)((a: Double, b: Grade) => b.grade + a)
 
       for (subject <- subjects) {
         subject.result.get match {
@@ -44,7 +45,8 @@ class Module(name: String, professor: String) {
           case _ => {}
         }
       }
-      val averageGrade: Double = (gradeAccumulator / weightSum)
+      val gradeAccumulatorDoubleVal: Double = gradeAccumulator / 10.0
+      val averageGrade: Double = (gradeAccumulatorDoubleVal / weightSum)
       Some(Grade(averageGrade))
     } else {
       None
