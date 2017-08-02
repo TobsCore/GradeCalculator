@@ -1,7 +1,6 @@
 package tobscore.sideprojects.gradecalc
 
-import tobscore.sideprojects.gradecalc
-import tobscore.sideprojects.gradecalc.grade.{ExplicitGrade, Pass, PassFail}
+import tobscore.sideprojects.gradecalc.grade.{Grade,Fail, Pass, PassFail}
 
 import scala.util.control.Breaks._
 import scala.collection.mutable.ListBuffer
@@ -17,7 +16,7 @@ class Module(name: String, professor: String) {
       subjects.filter(_.isFail.getOrElse(true)).nonEmpty
     }
     def containsGrades(): Boolean = {
-      subjects.map(_.result.get).filter(_.isInstanceOf[ExplicitGrade]).nonEmpty
+      subjects.map(_.result.get).filter(_.isInstanceOf[Grade]).nonEmpty
     }
 
     var gradeAccumulator: Int = 0
@@ -27,18 +26,18 @@ class Module(name: String, professor: String) {
     if (subjects.isEmpty) {
       None
     } else if (containsFailedSubject()) {
-      Some(Pass(false))
+      Some(Fail())
     } else if (!containsGrades()) {
-      Some(Pass(true))
+      Some(Pass())
     } else if (containsGrades()) {
 
       var weightSum = 0
       var gradeAccumulator = 0.0
-      subjects.map(_.result.get).filter(_.isInstanceOf[ExplicitGrade]).map(_.asInstanceOf[ExplicitGrade]).foldLeft(0.0)((a:Double, b: ExplicitGrade) => b.grade + a)
+      subjects.map(_.result.get).filter(_.isInstanceOf[Grade]).map(_.asInstanceOf[Grade]).foldLeft(0.0)((a:Double, b: Grade) => b.grade + a)
 
       for (subject <- subjects) {
         subject.result.get match {
-          case subjectGrade: ExplicitGrade => {
+          case subjectGrade: Grade => {
             weightSum += subject.weight
             gradeAccumulator += subject.weight * subjectGrade.grade
           }
@@ -46,7 +45,7 @@ class Module(name: String, professor: String) {
         }
       }
       val averageGrade:Int = (gradeAccumulator / weightSum).toInt
-      Some(ExplicitGrade(averageGrade))
+      Some(Grade(averageGrade))
     } else {
       None
     }
