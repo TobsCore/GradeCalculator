@@ -38,7 +38,7 @@ class ModuleTest extends FunSuite with BeforeAndAfter {
 
   test("Checking module creation with two graded subjects") {
     assertResult(2) {
-      moduleGradeOnly.size
+      moduleGradeOnly.amountOfSubjects
     }
   }
 
@@ -46,7 +46,7 @@ class ModuleTest extends FunSuite with BeforeAndAfter {
   test("Creating a module with different subjects {1 Pass only, the other graded}") {
     moduleEmpty += List(subjectPassGrade1, subjectPass1)
     assertResult(2) {
-      moduleGradeOnly.size
+      moduleGradeOnly.amountOfSubjects
     }
   }
 
@@ -160,6 +160,55 @@ class ModuleTest extends FunSuite with BeforeAndAfter {
     moduleEmpty += List(rhetorik, recht, interculturalCommunication)
     assertResult(Grade(1.5)) {
       moduleEmpty.result.get
+    }
+  }
+
+  test("Remove subject from module") {
+    val exModule = new Module("Example Module", "Prof. Dr. Example")
+    exModule += List(subjectPassGrade1, subjectPassGrade2, subjectPassGrade3)
+    assertResult(3) {
+      exModule.amountOfSubjects
+    }
+
+    // Removing one subject
+    exModule -= subjectPassGrade3
+    assertResult(2) {
+      exModule.amountOfSubjects
+    }
+  }
+
+  test("Remove multiple subject from module") {
+    val exModule = new Module("Example Module", "Prof. Dr. Example")
+    exModule += List(subjectPassGrade1, subjectPassGrade2, subjectPassGrade3)
+
+    exModule -= List(subjectPassGrade3, subjectPassGrade2)
+    assertResult(1) {
+      exModule.amountOfSubjects
+    }
+  }
+
+  test("Remove the same item multiple times") {
+    moduleGradeOnly += subjectPass1
+    assertResult(3) {
+      moduleGradeOnly.amountOfSubjects
+    }
+
+    moduleGradeOnly -= List(subjectPass1, subjectPass1)
+    assertResult(2) {
+      moduleGradeOnly.amountOfSubjects
+    }
+  }
+
+  test("Remove subject from empty module") {
+    // Module is really empty
+    assertResult(0) {
+      moduleEmpty.amountOfSubjects
+    }
+
+    moduleEmpty -= subjectPass1
+
+    assertResult(0) {
+      moduleEmpty.amountOfSubjects
     }
   }
 
