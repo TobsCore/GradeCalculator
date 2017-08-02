@@ -37,10 +37,12 @@ class Module(name: String, professor: String) {
       subjects.map(_.result.get).filter(_.isInstanceOf[ExplicitGrade]).map(_.asInstanceOf[ExplicitGrade]).foldLeft(0.0)((a:Double, b: ExplicitGrade) => b.grade + a)
 
       for (subject <- subjects) {
-        if (subject.result.get.isInstanceOf[ExplicitGrade]) {
-          val subjectGrade: ExplicitGrade = subject.result.get.asInstanceOf[ExplicitGrade]
-          weightSum += subject.weight
-          gradeAccumulator += subject.weight * subjectGrade.grade
+        subject.result.get match {
+          case subjectGrade: ExplicitGrade => {
+            weightSum += subject.weight
+            gradeAccumulator += subject.weight * subjectGrade.grade
+          }
+          case _ => {}
         }
       }
       val averageGrade:Int = (gradeAccumulator / weightSum).toInt

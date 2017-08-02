@@ -156,7 +156,7 @@ class ModuleTest extends FunSuite with BeforeAndAfter {
     val recht = Subject("Recht", Some(ExplicitGrade(1.7)))
     val interculturalCommunication = Subject("Intercultural Communication", Some(Pass(true)))
 
-    moduleEmpty += List(rhetorik, recht)
+    moduleEmpty += List(rhetorik, recht, interculturalCommunication)
     assertResult(ExplicitGrade(1.3)) {
       moduleEmpty.result.get
     }

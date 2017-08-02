@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.layout.VBox?>
+
+<?import java.net.URL?>
+<?import javafx.scene.input.*?>
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tobscore.sideprojects.gradecalc.MainController">
+  <children>
+   <MenuBar useSystemMenuBar="true" VBox.vgrow="NEVER">
+      <menus>
+        <Menu mnemonicParsing="false" text="File">
+          <items>
+            <MenuItem mnemonicParsing="false" text="Importieren" disable="true"/>
+            <MenuItem mnemonicParsing="false" text="Exportieren"  disable="true"/>
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Einstellungen…"  disable="true"/>
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" text="Beenden" disable="true"/>
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Studium">
+          <items>
+            <MenuItem mnemonicParsing="false" text="Neues Fach" onAction="#displayNewSubjectDialog">
+                    <accelerator><KeyCodeCombination code="N" alt="UP" control="UP" meta="DOWN" shift="UP" shortcut="UP"></KeyCodeCombination> </accelerator>
+            </MenuItem>
+            <MenuItem mnemonicParsing="false" text="Neues Modul" >
+                <accelerator><KeyCodeCombination code="N" alt="UP" control="UP" meta="DOWN" shift="DOWN" shortcut="UP"></KeyCodeCombination> </accelerator>
+            </MenuItem>
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Help">
+          <items>
+            <MenuItem mnemonicParsing="false" text="Über" onAction="#openAboutDialog"/>
+          </items>
+        </Menu>
+      </menus>
+    </MenuBar>
+      <VBox prefHeight="200.0" prefWidth="100.0">
+         <children>
+           <fx:include fx:id="1" source="Grid.fxml"/>
+           <fx:include fx:id="2" source="Grid.fxml"/>
+           <fx:include fx:id="3" source="Grid.fxml"/>
+           <fx:include fx:id="4" source="Grid.fxml"/>
+           <fx:include fx:id="5" source="Grid.fxml"/>
+           <fx:include fx:id="6" source="Grid.fxml"/>
+           <fx:include fx:id="7" source="Grid.fxml"/>
+         </children>
+         <VBox.margin>
+            <Insets left="50.0" top="50.0" />
+         </VBox.margin>
+      </VBox>
+  </children>
+  <stylesheets>
+    <URL value="@style.css"/>
+  </stylesheets>
+</VBox>
