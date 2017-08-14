@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<GridPane minWidth="500.0" prefHeight="30.0" prefWidth="600.0" vgap="10.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane minWidth="500.0" prefHeight="30.0" prefWidth="600.0" vgap="10.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tobscore.sideprojects.gradecalc.controller.SubjectListElementController">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="200.0" prefWidth="300.0" />
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="40.0" minWidth="30.0" prefWidth="40.0" />
@@ -23,13 +23,13 @@
         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
     </rowConstraints>
     <children>
-        <Label text="Informatik 2" />
-        <TextField maxWidth="30.0" prefHeight="27.0" prefWidth="30.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+        <Label fx:id="subjectLabel" text="Informatik 2" />
+        <TextField fx:id="subjectGrade" maxWidth="30.0" prefHeight="27.0" prefWidth="30.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
             <GridPane.margin>
                 <Insets left="5.0" right="2.0" />
             </GridPane.margin>
         </TextField>
-      <MenuButton mnemonicParsing="false" text="Bearbeiten" GridPane.columnIndex="3" GridPane.halignment="RIGHT">
+      <MenuButton fx:id="elementMenu" mnemonicParsing="false" text="Bearbeiten" GridPane.columnIndex="3" GridPane.halignment="RIGHT">
         <items>
           <MenuItem mnemonicParsing="false" text="Bearbeiten" />
           <MenuItem mnemonicParsing="false" text="Löschen" />
@@ -38,7 +38,7 @@
             <Font size="10.0" />
          </font>
       </MenuButton>
-      <CheckBox mnemonicParsing="false" text="Abgeschlossen" GridPane.columnIndex="2">
+      <CheckBox fx:id="subjectFinished" mnemonicParsing="false" text="Abgeschlossen" GridPane.columnIndex="2">
          <font>
             <Font size="10.0" />
          </font>
