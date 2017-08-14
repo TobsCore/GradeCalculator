@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="216.0" prefWidth="571.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tobscore.sideprojects.gradecalc.MainController">
+<VBox prefHeight="216.0" prefWidth="571.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tobscore.sideprojects.gradecalc.controller.MainController">
     <children>
         <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="216.0" prefWidth="543.0" VBox.vgrow="ALWAYS">
             <children>

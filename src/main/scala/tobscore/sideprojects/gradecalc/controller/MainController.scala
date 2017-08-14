@@ -1,4 +1,4 @@
-package tobscore.sideprojects.gradecalc
+package tobscore.sideprojects.gradecalc.controller
 
 import java.io.IOException
 import javafx.scene.Scene
