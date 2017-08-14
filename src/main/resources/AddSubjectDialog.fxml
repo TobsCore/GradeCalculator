@@ -71,7 +71,7 @@
                     <buttons>
                         <Button fx:id="cancel" cancelButton="true" mnemonicParsing="false" onAction="#quitDialog"
                                 text="Abbrechen"/>
-                        <Button fx:id="accept" defaultButton="true" mnemonicParsing="false" text="Übernehmen"
+                        <Button fx:id="accept" defaultButton="true" mnemonicParsing="false" onAction="#addSubject" text="Übernehmen"
                                 disable="true"/>
                     </buttons>
                 </ButtonBar>
