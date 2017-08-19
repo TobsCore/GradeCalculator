@@ -18,6 +18,7 @@ case class Grade(grade: Int) extends Passable {
 
   def get(): Double = grade / 10.0
 
+  override def isGraded = true
 }
 
 object Grade {

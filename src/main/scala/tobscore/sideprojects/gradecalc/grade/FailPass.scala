@@ -4,4 +4,6 @@ trait FailPass extends Passable {
   def pass: Boolean
 
   def isPass: Boolean = pass
+
+  override def isGraded: Boolean = false
 }

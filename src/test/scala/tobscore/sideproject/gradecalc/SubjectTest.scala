@@ -77,4 +77,19 @@ class SubjectTest extends FunSuite with BeforeAndAfter {
       exSubject.result
     }
   }
+
+  test("Checking if subject is graded") {
+    assert(inMemoryDatabases.isGraded().get)
+  }
+
+  test("Checking if subject with no grade yet is graded") {
+    val exSub = new Subject[Grade]("Example Subject", None)
+    assertResult(None) {
+      exSub.isGraded()
+    }
+  }
+
+  test("Checking if fail/pass subject is graded") {
+    assert(!computerVisionLab.isGraded().get)
+  }
 }

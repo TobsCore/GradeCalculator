@@ -5,6 +5,7 @@ package tobscore.sideprojects.gradecalc.grade
   */
 trait Passable {
 
+  def isGraded: Boolean
   def isPass: Boolean
   def isFail: Boolean = !isPass
 
