@@ -46,10 +46,10 @@ class MainController extends MainControllerInterface {
 
 
   def displayNewSubjectDialog() = {
-    val aboutDialogFXML: String = "/AddSubjectDialog.fxml"
-    val resource = getClass.getResource(aboutDialogFXML)
+    val addSubjectDialogFXML: String = "/AddSubjectDialog.fxml"
+    val resource = getClass.getResource(addSubjectDialogFXML)
     if (resource == null) {
-      throw new IOException(s"Cannot load $aboutDialogFXML")
+      throw new IOException(s"Cannot load $addSubjectDialogFXML")
     }
     val loader = new FXMLLoader(resource, NoDependencyResolver)
     loader.load()
