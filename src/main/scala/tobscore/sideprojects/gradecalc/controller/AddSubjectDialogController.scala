@@ -24,7 +24,7 @@ class AddSubjectDialogController(val subjectIdentifier: TextField,
   var controller: Option[MainControllerInterface] = None
 
   subjectIdentifier.text.addListener((_, _, subjectIdentifiertText) => {
-    accept.disable() = subjectIdentifiertText.size <= 0
+    accept.disable() = subjectIdentifiertText.length <= 0
   })
 
   def addSubject(): Unit = {

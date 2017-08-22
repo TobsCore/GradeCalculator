@@ -8,11 +8,11 @@ case class Grade(grade: Int) extends Passable {
 
   def this(grade: Double) = this((grade * 10).toInt)
 
-  override def isPass(): Boolean = {
+  override def isPass: Boolean = {
     grade <= 40
   }
 
-  override def toString(): String = {
+  override def toString: String = {
     grade.toString
   }
 

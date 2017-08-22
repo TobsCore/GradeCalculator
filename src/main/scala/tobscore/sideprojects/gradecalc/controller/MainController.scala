@@ -1,7 +1,7 @@
 package tobscore.sideprojects.gradecalc.controller
 
 import java.io.IOException
-import javafx.scene.layout.{GridPane, HBox}
+import javafx.scene.layout.GridPane
 import javafx.{scene => jfxs}
 
 import tobscore.sideprojects.gradecalc.Subject
@@ -48,7 +48,7 @@ class MainController(val subjectList: VBox) extends MainControllerInterface {
   }
 
 
-  def displayNewSubjectDialog() = {
+  def displayNewSubjectDialog(): Unit = {
     val addSubjectDialogFXML: String = "/AddSubjectDialog.fxml"
     val resource = getClass.getResource(addSubjectDialogFXML)
     if (resource == null) {
