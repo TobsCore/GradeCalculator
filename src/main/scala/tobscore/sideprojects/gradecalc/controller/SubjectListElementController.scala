@@ -1,6 +1,9 @@
 package tobscore.sideprojects.gradecalc.controller
 
-import scalafx.scene.control.{Label, MenuButton, TextField, CheckBox}
+import tobscore.sideprojects.gradecalc.Subject
+import tobscore.sideprojects.gradecalc.grade.Passable
+
+import scalafx.scene.control.{CheckBox, Label, MenuButton, TextField}
 import scalafxml.core.macros.sfxml
 
 @sfxml
