@@ -43,7 +43,8 @@
     </MenuBar>
     <BorderPane prefHeight="600.0" VBox.vgrow="ALWAYS">
         <center>
-            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" BorderPane.alignment="CENTER">
+            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" BorderPane.alignment="CENTER"
+                        style="-fx-focus-color: transparent; -fx-background-color:transparent;">
                 <VBox fx:id="subjectList">
                     <fx:include source="SubjectListElement.fxml"/>
                     <padding>
