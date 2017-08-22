@@ -30,7 +30,7 @@
             <Label layoutX="280.0" layoutY="8.0" text="Bestanden" textFill="#aaaaaa" AnchorPane.bottomAnchor="7.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="7.0" />
          </children>
       </AnchorPane>
-        <TextField fx:id="subjectGrade" maxWidth="30.0" prefHeight="27.0" prefWidth="30.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+        <TextField fx:id="subjectGrade" maxWidth="35.0" minWidth="-Infinity" prefHeight="27.0" prefWidth="35.0" text="1.3" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
             <GridPane.margin>
                 <Insets left="5.0" right="2.0" />
             </GridPane.margin>
