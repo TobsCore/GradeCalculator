@@ -26,7 +26,7 @@ object GradeCalculator extends JFXApp {
     title = "GradeCalc"
     scene = new Scene(root)
     minWidth = 600
-    minHeight = 600
+    minHeight = 400
   }
 
 }
