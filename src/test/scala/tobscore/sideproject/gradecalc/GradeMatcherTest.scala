@@ -56,4 +56,12 @@ class GradeMatcherTest extends FunSuite{
   test("Double 5.0 is correct") {
     assert(GradeMatcher("5.0").isCorrect())
   }
+
+  test("Empty value matching") {
+    assert(!GradeMatcher("").matches())
+  }
+
+  test("Empty value is correct") {
+    assert(!GradeMatcher("").isCorrect())
+  }
 }

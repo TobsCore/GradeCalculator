@@ -6,7 +6,7 @@ case class GradeMatcher(s: String) {
 
   def isCorrect(): Boolean = {
     if (!matches()) {
-      false
+      return false
     }
     value = s.toDouble
     isInRange(value)
