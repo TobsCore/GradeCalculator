@@ -1,8 +1,12 @@
 package tobscore.sideprojects.gradecalc.controller
 
+import javafx.css.PseudoClass
+import javafx.{scene => jfxs}
+
+import tobscore.sideprojects.gradecalc.grade.GradeMatcher
+
 import scalafx.Includes._
 import scalafx.scene.control._
-import scalafx.util.StringConverter
 import scalafxml.core.macros.sfxml
 
 @sfxml
@@ -13,8 +17,14 @@ class SubjectListElementController(val subjectLabel: Label,
 
   subjectFinished.selected <==> subjectGrade.disable
   subjectGrade.text.addListener((_, previousGradeText, gradeText) => {
+    val errorStyle = PseudoClass.getPseudoClass("error")
+
     if (gradeText.length > 3) {
       subjectGrade.text() = previousGradeText
+    } else if (!GradeMatcher(gradeText).isCorrect()) {
+      subjectGrade.pseudoClassStateChanged(errorStyle, true)
+    } else {
+      subjectGrade.pseudoClassStateChanged(errorStyle, false)
     }
   })
 

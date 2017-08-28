@@ -11,3 +11,8 @@
     -fx-pref-width: 75;
     -fx-pref-height: 26;
 }
+
+.text-field:error {
+    -fx-text-box-border: red ;
+    -fx-focus-color: red ;
+}
