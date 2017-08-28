@@ -21,6 +21,8 @@ class SubjectListElementController(val subjectLabel: Label,
 
     if (gradeText.length > 3) {
       subjectGrade.text() = previousGradeText
+    } else if (gradeText.length == 0) {
+      subjectGrade.pseudoClassStateChanged(errorStyle, false)
     } else if (!GradeMatcher(gradeText).isCorrect()) {
       subjectGrade.pseudoClassStateChanged(errorStyle, true)
     } else {
