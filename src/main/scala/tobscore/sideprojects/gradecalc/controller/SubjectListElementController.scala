@@ -1,7 +1,6 @@
 package tobscore.sideprojects.gradecalc.controller
 
 import javafx.css.PseudoClass
-import javafx.{scene => jfxs}
 
 import tobscore.sideprojects.gradecalc.grade.GradeMatcher
 

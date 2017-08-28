@@ -1,11 +1,13 @@
 package tobscore.sideprojects.gradecalc.controller
 
+import javafx.css.PseudoClass
+
 import scalafx.Includes._
 import scalafx.scene.control.{Alert, Button, ComboBox, TextField}
 import javafx.stage.Stage
 
 import tobscore.sideprojects.gradecalc.Subject
-import tobscore.sideprojects.gradecalc.grade.{FailPass, Grade, Passable}
+import tobscore.sideprojects.gradecalc.grade.{FailPass, Grade, GradeMatcher, Passable}
 
 import scalafx.scene.control.Alert.AlertType
 import scalafxml.core.macros.sfxml
@@ -16,6 +18,7 @@ trait MainControllerReceiver {
 
 @sfxml
 class AddSubjectDialogController(val subjectIdentifier: TextField,
+                                 val subjectGrade: TextField,
                                  val subjectGradeWeight: TextField,
                                  val subjectType: ComboBox[String],
                                  val cancel: Button,
@@ -25,6 +28,20 @@ class AddSubjectDialogController(val subjectIdentifier: TextField,
 
   subjectIdentifier.text.addListener((_, _, subjectIdentifiertText) => {
     accept.disable() = subjectIdentifiertText.length <= 0
+  })
+
+  subjectGrade.text.addListener((_, previousGradeText, gradeText) => {
+    val errorStyle = PseudoClass.getPseudoClass("error")
+
+    if (gradeText.length > 3) {
+      subjectGrade.text() = previousGradeText
+    } else if (gradeText.length == 0) {
+      subjectGrade.pseudoClassStateChanged(errorStyle, false)
+    } else if (!GradeMatcher(gradeText).isCorrect()) {
+      subjectGrade.pseudoClassStateChanged(errorStyle, true)
+    } else {
+      subjectGrade.pseudoClassStateChanged(errorStyle, false)
+    }
   })
 
   def addSubject(): Unit = {
