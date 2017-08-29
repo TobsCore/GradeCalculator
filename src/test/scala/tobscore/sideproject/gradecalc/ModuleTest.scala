@@ -2,7 +2,7 @@ package tobscore.sideproject.gradecalc
 
 import org.scalatest.{BeforeAndAfter, FunSuite}
 import tobscore.sideprojects.gradecalc.{Module, Professor, Subject}
-import tobscore.sideprojects.gradecalc.grade.{Fail, Grade, Pass, Passable}
+import tobscore.sideprojects.gradecalc.grade._
 
 import scala.collection.mutable.ListBuffer
 
@@ -18,8 +18,8 @@ class ModuleTest extends FunSuite with BeforeAndAfter {
   var subjectPassGrade2: Subject[Grade] = _
   var subjectPassGrade3: Subject[Grade] = _
   var subjectFailGrade1: Subject[Grade] = _
-  var subjectPass1: Subject[Pass] = _
-  var subjectFail1: Subject[Fail] = _
+  var subjectPass1: Subject[FailPass] = _
+  var subjectFail1: Subject[FailPass] = _
 
 
   before {
@@ -27,8 +27,8 @@ class ModuleTest extends FunSuite with BeforeAndAfter {
     subjectPassGrade2 = Subject[Grade]("Applied Webtechnologies", Some(Grade(2.3)), weight = 2)
     subjectPassGrade3 = Subject[Grade]("Styling Webpages via CSS", Some(Grade(2.0)))
     subjectFailGrade1 = Subject[Grade]("Javascript Goodies", Some(Grade(4.3)))
-    subjectPass1 = Subject[Pass]("Statistical Approach in Web", Some(Pass()), 0, 1, Some(Professor("Prof. Dr. Exampleton")), false)
-    subjectFail1 = Subject[Fail]("Enterprise Web Technologies", Some(Fail()), weight = 0)
+    subjectPass1 = Subject[FailPass]("Statistical Approach in Web", Some(Pass()), 0, 1, Some(Professor("Prof. Dr. Exampleton")), false)
+    subjectFail1 = Subject[FailPass]("Enterprise Web Technologies", Some(Fail()), weight = 0)
 
     moduleGradeOnly = new Module("WebTechnologies", "Prof. Dr. Mighty Examplus")
     moduleGradeOnly += List(subjectPassGrade1, subjectPassGrade2)

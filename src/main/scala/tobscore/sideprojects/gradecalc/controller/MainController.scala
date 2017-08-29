@@ -4,9 +4,10 @@ import java.io.IOException
 import javafx.scene.layout.GridPane
 import javafx.{scene => jfxs}
 
-import tobscore.sideprojects.gradecalc.Subject
+import tobscore.sideprojects.gradecalc.{Semester, Subject}
 import tobscore.sideprojects.gradecalc.grade.Passable
 
+import scala.collection.mutable.ListBuffer
 import scalafx.Includes._
 import scalafx.scene.control.{Label, TextField}
 import scalafx.scene.layout.VBox
@@ -23,6 +24,8 @@ trait MainControllerInterface {
   */
 @sfxml
 class MainController(val subjectList: VBox) extends MainControllerInterface {
+
+  val semester: Semester = Semester(1)
 
   def openAboutDialog(): Unit = {
     val aboutDialogFXML: String = "/AboutDialog.fxml"
@@ -89,10 +92,6 @@ class MainController(val subjectList: VBox) extends MainControllerInterface {
     val root = loader.getRoot[jfxs.Parent].asInstanceOf[GridPane]
     val controller = loader.getController[ISubjectListElementController]
     controller.setModel(subject)
-
-    val subjectName: Label = root.lookup("#subjectLabel").asInstanceOf[jfxs.control.Label]
-    val subjectGrade: TextField = root.lookup("#subjectGrade").asInstanceOf[jfxs.control.TextField]
-
 
     subjectList.children.add(root)
   }
