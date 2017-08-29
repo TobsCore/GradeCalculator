@@ -44,7 +44,6 @@
         <center>
             <ScrollPane fitToWidth="true" hbarPolicy="NEVER" style="-fx-focus-color: transparent; -fx-background-color:transparent;" BorderPane.alignment="CENTER">
                 <VBox fx:id="subjectList">
-                    <fx:include source="SubjectListElement.fxml" />
                     <padding>
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                     </padding>
@@ -55,7 +54,7 @@
             <AnchorPane prefHeight="150.0" BorderPane.alignment="CENTER">
             <children>
                <Label layoutX="394.0" layoutY="44.0" text="Endergebnis:" />
-               <Label fx:id="resultLabel" layoutX="394.0" layoutY="67.0" text="Bestanden">
+               <Label fx:id="resultLabel" layoutX="394.0" layoutY="67.0" text="-">
                   <font>
                      <Font size="17.0" />
                   </font>
