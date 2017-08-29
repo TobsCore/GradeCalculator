@@ -82,9 +82,9 @@ class AddSubjectDialogController(val subjectIdentifier: TextField,
         } else {
           Some(new Grade(subjectGrade.text().toDouble))
         }
-        Subject[Grade](subjectName, grade, weight.get, 1, None)
+        Subject[Grade](subjectName, grade, weight.get)
       } else {
-        Subject[FailPass](subjectName, None, weight.get, 1, None)
+        Subject[FailPass](subjectName, None, weight.get)
       }
     }
 

@@ -2,17 +2,25 @@ package tobscore.sideprojects.gradecalc.controller
 
 import javafx.css.PseudoClass
 
-import tobscore.sideprojects.gradecalc.grade.GradeMatcher
+import tobscore.sideprojects.gradecalc.Subject
+import tobscore.sideprojects.gradecalc.grade.{GradeMatcher, Passable}
 
 import scalafx.Includes._
+import scalafx.application.Platform
 import scalafx.scene.control._
 import scalafxml.core.macros.sfxml
+
+trait ISubjectListElementController {
+  def setModel(model: Subject[_ <: Passable])
+}
 
 @sfxml
 class SubjectListElementController(val subjectLabel: Label,
                                    val subjectGrade: TextField,
                                    val elementMenu: MenuButton,
-                                   val subjectFinished: CheckBox) {
+                                   val subjectFinished: CheckBox) extends ISubjectListElementController {
+
+  var subject: Subject[_ <: Passable] = _
 
   subjectFinished.selected <==> subjectGrade.disable
   subjectGrade.text.addListener((_, previousGradeText, gradeText) => {
@@ -30,7 +38,7 @@ class SubjectListElementController(val subjectLabel: Label,
   })
 
   def editEntry(): Unit = {
-    println(s"Deleting entry ${subjectLabel.text()}")
+    println(s"Editing entry ${subjectLabel.text()}")
   }
 
   def deleteEntry(): Unit = {
@@ -38,7 +46,12 @@ class SubjectListElementController(val subjectLabel: Label,
   }
 
   def toggleFinished(): Unit = {
-    println(s"Toggles finished state of ${subjectLabel.text()}")
   }
 
+  override def setModel(model: Subject[_ <: Passable]): Unit = {
+    subject = model
+    subjectLabel.text <==> subject.name
+    subjectFinished.selected <==> subject.isFinished
+    subjectGrade.text() = subject.result.getOrElse("").toString
+  }
 }

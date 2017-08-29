@@ -77,7 +77,7 @@ class MainController(val subjectList: VBox) extends MainControllerInterface {
 
   override def addSubject(subject: Subject[_ <: Passable]): Unit = {
     val label = new Label()
-    label.text() = subject.name
+    label.text() = subject.name()
 
     val customControl: String = "/SubjectListElement.fxml"
     val resource = getClass.getResource(customControl)
@@ -87,12 +87,12 @@ class MainController(val subjectList: VBox) extends MainControllerInterface {
     val loader = new FXMLLoader(resource, NoDependencyResolver)
     loader.load()
     val root = loader.getRoot[jfxs.Parent].asInstanceOf[GridPane]
+    val controller = loader.getController[ISubjectListElementController]
+    controller.setModel(subject)
 
     val subjectName: Label = root.lookup("#subjectLabel").asInstanceOf[jfxs.control.Label]
     val subjectGrade: TextField = root.lookup("#subjectGrade").asInstanceOf[jfxs.control.TextField]
 
-    subjectName.text() = subject.name
-    subjectGrade.text() = subject.result.getOrElse("").toString
 
     subjectList.children.add(root)
   }

@@ -41,8 +41,8 @@ class Module(name: String, professor: String) {
       for (subject <- subjects) {
         subject.result.get match {
           case subjectGrade: Grade => {
-            weightSum += subject.weight
-            gradeAccumulator += subject.weight * subjectGrade.grade
+            weightSum += subject.weight()
+            gradeAccumulator += subject.weight() * subjectGrade.grade
           }
           case _ => {}
         }

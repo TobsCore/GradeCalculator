@@ -4,6 +4,8 @@ import org.scalatest.{BeforeAndAfter, FunSuite}
 import tobscore.sideprojects.gradecalc.{Professor, Subject}
 import tobscore.sideprojects.gradecalc.grade.{Fail, FailPass, Grade, Pass}
 
+import scalafx.beans.property.IntegerProperty
+
 /**
   * Created by Tobias Kerst on 06.03.17.
   */
@@ -58,7 +60,7 @@ class SubjectTest extends FunSuite with BeforeAndAfter {
   }
 
   test("Checking the weight of a subject") {
-    val tempSubject = new Subject[Grade]("Example", weight = 2, result = Some(Grade(2.3)))
+   val tempSubject = Subject[Grade]("Example", Some(Grade(2.3)), 2)
     assertResult(Grade(2.3)) {
       tempSubject.result.get
     }
@@ -72,7 +74,7 @@ class SubjectTest extends FunSuite with BeforeAndAfter {
   }
 
   test("Empty Grade") {
-    val exSubject = new Subject[Grade]("Some example subject", None)
+    val exSubject = Subject[Grade]("Some example subject", None)
     assertResult(None) {
       exSubject.result
     }
@@ -83,7 +85,7 @@ class SubjectTest extends FunSuite with BeforeAndAfter {
   }
 
   test("Checking if subject with no grade yet is graded") {
-    val exSub = new Subject[Grade]("Example Subject", None)
+    val exSub = Subject[Grade]("Example Subject", None)
     assertResult(None) {
       exSub.isGraded()
     }
