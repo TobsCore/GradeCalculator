@@ -17,13 +17,16 @@ import scalafxml.core.{FXMLLoader, FXMLView, NoDependencyResolver}
 
 trait MainControllerInterface {
   def addSubject(subject: Subject[_ <: Passable]): Unit
+
+  def updateResults(): Unit
 }
 
 /**
   * Created by Tobias Kerst on 08.03.17.
   */
 @sfxml
-class MainController(val subjectList: VBox) extends MainControllerInterface {
+class MainController(val subjectList: VBox,
+                     val resultLabel: Label) extends MainControllerInterface {
 
   val semester: Semester = Semester(1)
 
@@ -79,20 +82,32 @@ class MainController(val subjectList: VBox) extends MainControllerInterface {
   }
 
   override def addSubject(subject: Subject[_ <: Passable]): Unit = {
-    val label = new Label()
-    label.text() = subject.name()
+    def populateView(): Unit = {
+      val label = new Label()
+      label.text() = subject.name()
 
-    val customControl: String = "/SubjectListElement.fxml"
-    val resource = getClass.getResource(customControl)
-    if (resource == null) {
-      throw new IOException(s"Cannot load $customControl")
+      val customControl: String = "/SubjectListElement.fxml"
+      val resource = getClass.getResource(customControl)
+      if (resource == null) {
+        throw new IOException(s"Cannot load $customControl")
+      }
+      val loader = new FXMLLoader(resource, NoDependencyResolver)
+      loader.load()
+      val root = loader.getRoot[jfxs.Parent].asInstanceOf[GridPane]
+      val controller = loader.getController[SubjectListElementControllerInterface]
+      controller.setMainController(this)
+      controller.setModel(subject)
+
+      subjectList.children.add(root)
     }
-    val loader = new FXMLLoader(resource, NoDependencyResolver)
-    loader.load()
-    val root = loader.getRoot[jfxs.Parent].asInstanceOf[GridPane]
-    val controller = loader.getController[ISubjectListElementController]
-    controller.setModel(subject)
 
-    subjectList.children.add(root)
+
+    populateView()
+    semester += subject
+    updateResults()
+  }
+
+  override def updateResults(): Unit = {
+    resultLabel.text() = semester.result().getOrElse("Not set").toString
   }
 }

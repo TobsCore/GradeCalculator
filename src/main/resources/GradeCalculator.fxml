@@ -2,6 +2,7 @@
 
 <?import java.net.URL?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
@@ -11,53 +12,58 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<VBox xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="tobscore.sideprojects.gradecalc.controller.MainController">
+<VBox xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tobscore.sideprojects.gradecalc.controller.MainController">
     <MenuBar useSystemMenuBar="true">
         <Menu mnemonicParsing="false" text="File">
-            <MenuItem disable="true" mnemonicParsing="false" text="Importieren"/>
-            <MenuItem disable="true" mnemonicParsing="false" text="Exportieren"/>
-            <SeparatorMenuItem mnemonicParsing="false"/>
-            <MenuItem disable="true" mnemonicParsing="false" text="Einstellungen…"/>
-            <SeparatorMenuItem mnemonicParsing="false"/>
-            <MenuItem disable="true" mnemonicParsing="false" text="Beenden"/>
+            <MenuItem disable="true" mnemonicParsing="false" text="Importieren" />
+            <MenuItem disable="true" mnemonicParsing="false" text="Exportieren" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem disable="true" mnemonicParsing="false" text="Einstellungen…" />
+            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem disable="true" mnemonicParsing="false" text="Beenden" />
         </Menu>
         <Menu mnemonicParsing="false" text="Studium">
             <MenuItem mnemonicParsing="false" onAction="#displayNewSubjectDialog" text="Neues Fach">
                 <accelerator>
-                    <KeyCodeCombination alt="UP" code="N" control="UP" meta="DOWN" shift="UP"
-                                        shortcut="UP"/>
+                    <KeyCodeCombination alt="UP" code="N" control="UP" meta="DOWN" shift="UP" shortcut="UP" />
                 </accelerator>
             </MenuItem>
             <MenuItem mnemonicParsing="false" text="Neues Modul">
                 <accelerator>
-                    <KeyCodeCombination alt="UP" code="N" control="UP" meta="DOWN" shift="DOWN"
-                                        shortcut="UP"/>
+                    <KeyCodeCombination alt="UP" code="N" control="UP" meta="DOWN" shift="DOWN" shortcut="UP" />
                 </accelerator>
             </MenuItem>
         </Menu>
         <Menu mnemonicParsing="false" text="Help">
-            <MenuItem mnemonicParsing="false" onAction="#openAboutDialog" text="Über"/>
+            <MenuItem mnemonicParsing="false" onAction="#openAboutDialog" text="Über" />
         </Menu>
     </MenuBar>
     <BorderPane prefHeight="600.0" VBox.vgrow="ALWAYS">
         <center>
-            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" BorderPane.alignment="CENTER"
-                        style="-fx-focus-color: transparent; -fx-background-color:transparent;">
+            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" style="-fx-focus-color: transparent; -fx-background-color:transparent;" BorderPane.alignment="CENTER">
                 <VBox fx:id="subjectList">
-                    <fx:include source="SubjectListElement.fxml"/>
+                    <fx:include source="SubjectListElement.fxml" />
                     <padding>
-                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                     </padding>
                 </VBox>
             </ScrollPane>
         </center>
         <bottom>
-            <AnchorPane prefHeight="150.0" BorderPane.alignment="CENTER"/>
+            <AnchorPane prefHeight="150.0" BorderPane.alignment="CENTER">
+            <children>
+               <Label layoutX="394.0" layoutY="44.0" text="Endergebnis:" />
+               <Label fx:id="resultLabel" layoutX="394.0" layoutY="67.0" text="Bestanden">
+                  <font>
+                     <Font size="17.0" />
+                  </font>
+               </Label>
+            </children></AnchorPane>
         </bottom>
     </BorderPane>
     <stylesheets>
-        <URL value="@style.css"/>
+        <URL value="@style.css" />
     </stylesheets>
 </VBox>
