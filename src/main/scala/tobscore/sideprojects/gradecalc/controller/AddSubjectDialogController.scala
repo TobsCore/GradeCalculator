@@ -10,6 +10,7 @@ import tobscore.sideprojects.gradecalc.Subject
 import tobscore.sideprojects.gradecalc.grade.{FailPass, Grade, GradeMatcher, Passable}
 
 import scalafx.scene.control.Alert.AlertType
+import scalafx.scene.control._
 import scalafxml.core.macros.sfxml
 
 trait MainControllerReceiver {
@@ -18,7 +19,10 @@ trait MainControllerReceiver {
 
 @sfxml
 class AddSubjectDialogController(val subjectIdentifier: TextField,
+                                 val subjectGradeLabel: Label,
                                  val subjectGrade: TextField,
+                                 val subjectPassLabel: Label,
+                                 val subjectPass: CheckBox,
                                  val subjectGradeWeight: TextField,
                                  val subjectType: ComboBox[String],
                                  val cancel: Button,
@@ -44,6 +48,19 @@ class AddSubjectDialogController(val subjectIdentifier: TextField,
     }
   })
 
+  subjectPass.visible <==> subjectPassLabel.visible
+  subjectGrade.visible <==> subjectGradeLabel.visible
+  subjectGrade.visible.delegate.bind(subjectPass.visible.not)
+
+  subjectType.value.addListener((_, _, selectedSubject) => {
+    if (selectedSubject.equals("Benotung")) {
+      subjectPass.setVisible(false)
+
+    } else {
+      subjectPass.setVisible(true)
+    }
+  })
+
   def addSubject(): Unit = {
     val gradeType: String = subjectType.getValue
     val subjectName: String = subjectIdentifier.text()
@@ -60,9 +77,14 @@ class AddSubjectDialogController(val subjectIdentifier: TextField,
 
     def createSubject(): Subject[_ <: Passable] = {
       if (gradeType.equalsIgnoreCase("Benotung")) {
-        Subject[Grade](subjectName, None, weight.get)
+        val grade: Option[Grade] = if (subjectGrade.text().length == 0) {
+          None
+        } else {
+          Some(new Grade(subjectGrade.text().toDouble))
+        }
+        Subject[Grade](subjectName, grade, weight.get, 1, None)
       } else {
-        Subject[FailPass](subjectName, None, weight.get)
+        Subject[FailPass](subjectName, None, weight.get, 1, None)
       }
     }
 
