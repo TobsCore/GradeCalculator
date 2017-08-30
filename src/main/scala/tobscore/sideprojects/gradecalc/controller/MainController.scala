@@ -4,6 +4,7 @@ import java.io.IOException
 import javafx.scene.layout.GridPane
 import javafx.{scene => jfxs}
 
+import com.typesafe.scalalogging.Logger
 import tobscore.sideprojects.gradecalc.{Semester, Subject}
 import tobscore.sideprojects.gradecalc.grade.Passable
 
@@ -28,6 +29,7 @@ trait MainControllerInterface {
 class MainController(val subjectList: VBox,
                      val resultLabel: Label) extends MainControllerInterface {
 
+  val logger = Logger(classOf[MainController])
   val semester: Semester = Semester(1)
 
   def openAboutDialog(): Unit = {
@@ -102,12 +104,14 @@ class MainController(val subjectList: VBox,
     }
 
 
+    logger.error(s"Adding subject ${subject.name}")
     populateView()
     semester += subject
     updateResults()
   }
 
   override def updateResults(): Unit = {
+    logger.trace("Updating the grade")
     resultLabel.text() = semester.result().getOrElse("Not set").toString
   }
 }

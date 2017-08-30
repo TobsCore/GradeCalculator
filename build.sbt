@@ -8,6 +8,10 @@ libraryDependencies += "org.scalafx" %% "scalafx" % "8.0.102-R11"
 libraryDependencies += "org.scalafx" %% "scalafxml-core-sfx8" % "0.4"
 libraryDependencies += "eu.lestard" % "advanced-bindings" % "0.4.0"
 
+libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.2.3"
+libraryDependencies += "com.typesafe.scala-logging" %% "scala-logging" % "3.7.2"
+
+
 // Includes the JavaFX Stylesheet, when SBT is run from the terminal
 unmanagedJars in Compile += Attributed.blank(file(System.getenv("JAVA_HOME") + "/lib/ext/jfxrt.jar"))
 

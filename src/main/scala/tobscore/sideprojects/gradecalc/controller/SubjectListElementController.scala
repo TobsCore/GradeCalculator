@@ -2,6 +2,7 @@ package tobscore.sideprojects.gradecalc.controller
 
 import javafx.css.PseudoClass
 
+import com.typesafe.scalalogging.Logger
 import tobscore.sideprojects.gradecalc.Subject
 import tobscore.sideprojects.gradecalc.grade.{GradeMatcher, Passable}
 
@@ -20,6 +21,7 @@ class SubjectListElementController(val subjectLabel: Label,
                                    val elementMenu: MenuButton,
                                    val subjectFinished: CheckBox) extends SubjectListElementControllerInterface {
 
+  val logger = Logger(classOf[SubjectListElementController])
   var subject: Subject[_ <: Passable] = _
   var mainController: MainControllerInterface = _
 
