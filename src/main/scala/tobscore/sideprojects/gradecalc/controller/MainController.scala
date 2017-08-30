@@ -10,6 +10,7 @@ import tobscore.sideprojects.gradecalc.grade.{Fail, Grade, Pass, Passable}
 
 import scala.collection.mutable.ListBuffer
 import scalafx.Includes._
+import scalafx.application.Platform
 import scalafx.scene.control.{Label, TextField}
 import scalafx.scene.layout.VBox
 import scalafx.stage.{Modality, Stage}
@@ -82,6 +83,11 @@ class MainController(val subjectList: VBox,
     } else {
       aboutStage.requestFocus()
     }
+  }
+
+  def quitApplication(): Unit = {
+    Platform.exit()
+    System.exit(0)
   }
 
   override def addSubject(subject: Subject[Grade]): Unit = {

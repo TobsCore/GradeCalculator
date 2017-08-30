@@ -39,7 +39,7 @@
                 <Insets left="20.0" />
             </GridPane.margin>
         </CheckBox>
-        <MenuButton fx:id="elementMenu" mnemonicParsing="false" text="Bearbeiten" GridPane.columnIndex="4" GridPane.halignment="RIGHT">
+        <!--<MenuButton fx:id="elementMenu" mnemonicParsing="false" text="Bearbeiten" GridPane.columnIndex="4" GridPane.halignment="RIGHT">
             <items>
                 <MenuItem mnemonicParsing="false" onAction="#editEntry" text="Bearbeiten" />
                 <MenuItem mnemonicParsing="false" onAction="#deleteEntry" text="Löschen" />
@@ -47,7 +47,7 @@
             <font>
                 <Font size="10.0" />
             </font>
-        </MenuButton>
+        </MenuButton>-->
     </children>
 
     <stylesheets>

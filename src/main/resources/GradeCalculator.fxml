@@ -25,7 +25,11 @@
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem disable="true" mnemonicParsing="false" text="Einstellungen…" />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem disable="true" mnemonicParsing="false" text="Beenden" />
+            <MenuItem mnemonicParsing="false" text="Beenden" onAction="#quitApplication">
+                <accelerator>
+                    <KeyCodeCombination alt="UP" code="Q" control="UP" meta="DOWN" shift="UP" shortcut="UP"/>
+                </accelerator>
+            </MenuItem>
         </Menu>
         <Menu mnemonicParsing="false" text="Studium">
             <MenuItem mnemonicParsing="false" onAction="#displayNewSubjectDialog" text="Neues Fach">
@@ -33,7 +37,7 @@
                     <KeyCodeCombination alt="UP" code="N" control="UP" meta="DOWN" shift="UP" shortcut="UP" />
                 </accelerator>
             </MenuItem>
-            <MenuItem mnemonicParsing="false" text="Neues Modul">
+            <MenuItem disable="true" mnemonicParsing="false" text="Neues Modul">
                 <accelerator>
                     <KeyCodeCombination alt="UP" code="N" control="UP" meta="DOWN" shift="DOWN" shortcut="UP" />
                 </accelerator>
