@@ -17,6 +17,27 @@ case class Semester(semesterNumber: Int) {
 
   def remove(c: Int): Unit = {
     subjects.remove(c)
+
+  }
+
+  def calcResult(): Double = {
+    var weightSum = 0
+    var gradeAccumulator: Int = 0
+    subjects.map(_.result.get).filter(_.isInstanceOf[Grade]).map(_.asInstanceOf[Grade]).foldLeft(0.0)((a: Double, b: Grade) => b.grade + a)
+
+    for (subject <- subjects) {
+      subject.result.get match {
+        case subjectGrade: Grade => {
+          weightSum += subject.weight()
+          gradeAccumulator += subject.weight() * subjectGrade.grade
+        }
+        case _ => {}
+      }
+    }
+    val gradeAccumulatorDoubleVal: Double = gradeAccumulator / 10.0
+    val averageGrade: Double = (gradeAccumulatorDoubleVal / weightSum)
+
+    return averageGrade
   }
 
   def result(): Option[_ <: Passable] = {
@@ -28,9 +49,6 @@ case class Semester(semesterNumber: Int) {
       subjects.map(_.result.get).filter(_.isInstanceOf[Grade]).nonEmpty
     }
 
-    var gradeAccumulator: Double = 0
-    var gradeWeight: Int = 0
-    var result: Option[_ <: Passable] = None
 
     if (subjects.isEmpty) {
       None
@@ -39,21 +57,7 @@ case class Semester(semesterNumber: Int) {
     } else if (!containsGrades()) {
       Some(Pass())
     } else if (containsGrades()) {
-      var weightSum = 0
-      var gradeAccumulator: Int = 0
-      subjects.map(_.result.get).filter(_.isInstanceOf[Grade]).map(_.asInstanceOf[Grade]).foldLeft(0.0)((a: Double, b: Grade) => b.grade + a)
-
-      for (subject <- subjects) {
-        subject.result.get match {
-          case subjectGrade: Grade => {
-            weightSum += subject.weight()
-            gradeAccumulator += subject.weight() * subjectGrade.grade
-          }
-          case _ => {}
-        }
-      }
-      val gradeAccumulatorDoubleVal: Double = gradeAccumulator / 10.0
-      val averageGrade: Double = (gradeAccumulatorDoubleVal / weightSum)
+      val averageGrade = calcResult()
       Some(Grade(averageGrade))
     } else {
       None

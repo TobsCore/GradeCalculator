@@ -27,7 +27,8 @@ trait MainControllerInterface {
   */
 @sfxml
 class MainController(val subjectList: VBox,
-                     val resultLabel: Label) extends MainControllerInterface {
+                     val resultLabel: Label,
+                     val exactGradeLabel: Label) extends MainControllerInterface {
 
   val logger = Logger(classOf[MainController])
   val semester: Semester = Semester(1)
@@ -112,10 +113,19 @@ class MainController(val subjectList: VBox,
 
   override def updateResults(): Unit = {
     logger.trace("Updating the grade")
-    resultLabel.text() = semester.result().getOrElse("-") match {
-      case Fail() => "Nicht bestanden"
-      case Pass() => "Bestanden"
-      case grade: Grade => grade.toString
+    semester.result().getOrElse("-") match {
+      case Fail() => {
+        exactGradeLabel.text() = ""
+        resultLabel.text() = "Nicht bestanden"
+      }
+      case Pass() => {
+        exactGradeLabel.text() = ""
+        resultLabel.text() = "Bestanden"
+      }
+      case grade: Grade => {
+        exactGradeLabel.text() = s"(${semester.calcResult().toString})"
+        resultLabel.text() = grade.toString
+      }
     }
   }
 }

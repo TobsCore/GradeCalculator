@@ -4,7 +4,6 @@ import javafx.css.PseudoClass
 import javafx.scene.input.{KeyCode, KeyEvent}
 
 import com.typesafe.scalalogging.Logger
-import sun.plugin2.main.client.MessagePassingExecutionContext
 import tobscore.sideprojects.gradecalc.Subject
 import tobscore.sideprojects.gradecalc.grade.{Grade, GradeMatcher, Passable}
 
