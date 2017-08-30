@@ -6,7 +6,7 @@ import javafx.{scene => jfxs}
 
 import com.typesafe.scalalogging.Logger
 import tobscore.sideprojects.gradecalc.{Semester, Subject}
-import tobscore.sideprojects.gradecalc.grade.Passable
+import tobscore.sideprojects.gradecalc.grade.{Grade, Passable}
 
 import scala.collection.mutable.ListBuffer
 import scalafx.Includes._
@@ -17,7 +17,7 @@ import scalafxml.core.macros.sfxml
 import scalafxml.core.{FXMLLoader, FXMLView, NoDependencyResolver}
 
 trait MainControllerInterface {
-  def addSubject(subject: Subject[_ <: Passable]): Unit
+  def addSubject(subject: Subject[Grade]): Unit
 
   def updateResults(): Unit
 }
@@ -83,7 +83,7 @@ class MainController(val subjectList: VBox,
     }
   }
 
-  override def addSubject(subject: Subject[_ <: Passable]): Unit = {
+  override def addSubject(subject: Subject[Grade]): Unit = {
     def populateView(): Unit = {
       val label = new Label()
       label.text() = subject.name()
@@ -104,7 +104,7 @@ class MainController(val subjectList: VBox,
     }
 
 
-    logger.error(s"Adding subject ${subject.name}")
+    logger.info(s"Adding subject ${subject.name}")
     populateView()
     semester += subject
     updateResults()

@@ -6,6 +6,7 @@ import scalafx.Includes._
 import scalafx.scene.control.{Alert, Button, ComboBox, TextField}
 import javafx.stage.Stage
 
+import com.typesafe.scalalogging.Logger
 import tobscore.sideprojects.gradecalc.Subject
 import tobscore.sideprojects.gradecalc.grade.{FailPass, Grade, GradeMatcher, Passable}
 
@@ -29,6 +30,7 @@ class AddSubjectDialogController(val subjectIdentifier: TextField,
                                  val accept: Button) extends MainControllerReceiver {
 
   var controller: Option[MainControllerInterface] = None
+  val logger = Logger(classOf[AddSubjectDialogController])
 
   subjectIdentifier.text.addListener((_, _, subjectIdentifiertText) => {
     accept.disable() = subjectIdentifiertText.length <= 0
@@ -75,7 +77,7 @@ class AddSubjectDialogController(val subjectIdentifier: TextField,
       return
     }
 
-    def createSubject(): Subject[_ <: Passable] = {
+    def createSubject(): Subject[Grade] = {
       if (gradeType.equalsIgnoreCase("Benotung")) {
         val grade: Option[Grade] = if (subjectGrade.text().length == 0) {
           None
@@ -84,7 +86,10 @@ class AddSubjectDialogController(val subjectIdentifier: TextField,
         }
         Subject[Grade](subjectName, grade, weight.get)
       } else {
-        Subject[FailPass](subjectName, None, weight.get)
+        //TODO: Implement Fail Pass subject
+        //Subject[FailPass](subjectName, None, weight.get)
+        logger.error("The method to add a subject that is only fail/pass is not implemented, yet")
+        Subject[Grade](subjectName, None, weight.get)
       }
     }
 

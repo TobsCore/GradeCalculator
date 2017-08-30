@@ -1,17 +1,19 @@
 package tobscore.sideprojects.gradecalc.controller
 
 import javafx.css.PseudoClass
+import javafx.scene.input.{KeyCode, KeyEvent}
 
 import com.typesafe.scalalogging.Logger
 import tobscore.sideprojects.gradecalc.Subject
-import tobscore.sideprojects.gradecalc.grade.{GradeMatcher, Passable}
+import tobscore.sideprojects.gradecalc.grade.{Grade, GradeMatcher, Passable}
 
 import scalafx.Includes._
 import scalafx.scene.control._
 import scalafxml.core.macros.sfxml
 
 trait SubjectListElementControllerInterface {
-  def setModel(model: Subject[_ <: Passable])
+  def setModel(model: Subject[Grade])
+
   def setMainController(controller: MainControllerInterface)
 }
 
@@ -22,12 +24,12 @@ class SubjectListElementController(val subjectLabel: Label,
                                    val subjectFinished: CheckBox) extends SubjectListElementControllerInterface {
 
   val logger = Logger(classOf[SubjectListElementController])
-  var subject: Subject[_ <: Passable] = _
+  var subject: Subject[Grade] = _
   var mainController: MainControllerInterface = _
+  val errorStyle = PseudoClass.getPseudoClass("error")
 
   subjectFinished.selected <==> subjectGrade.disable
   subjectGrade.text.addListener((_, previousGradeText, gradeText) => {
-    val errorStyle = PseudoClass.getPseudoClass("error")
 
     if (gradeText.length > 3) {
       subjectGrade.text() = previousGradeText
@@ -40,7 +42,21 @@ class SubjectListElementController(val subjectLabel: Label,
     }
   })
 
+  def gradeValueKeyPress(event: KeyEvent): Unit = {
+    val key = event.getCode()
+    if (GradeMatcher(subjectGrade.text()).isCorrect()) {
 
+      key match {
+        case KeyCode.ENTER | KeyCode.TAB => {
+
+          val gradeValue = subjectGrade.text().toDouble
+          subject.result = Some(Grade(gradeValue))
+          mainController.updateResults()
+        }
+        case _ => {}
+      }
+    }
+  }
 
   def editEntry(): Unit = {
     println(s"Editing entry ${subjectLabel.text()}")
@@ -53,7 +69,7 @@ class SubjectListElementController(val subjectLabel: Label,
   def toggleFinished(): Unit = {
   }
 
-  override def setModel(model: Subject[_ <: Passable]): Unit = {
+  override def setModel(model: Subject[Grade]): Unit = {
     subject = model
     subjectLabel.text <==> subject.name
     subjectFinished.selected <==> subject.isFinished
