@@ -44,17 +44,19 @@ class SubjectListElementController(val subjectLabel: Label,
 
   def gradeValueKeyPress(event: KeyEvent): Unit = {
     val key = event.getCode()
-    if (GradeMatcher(subjectGrade.text()).isCorrect()) {
 
-      key match {
-        case KeyCode.ENTER | KeyCode.TAB => {
-
+    key match {
+      case KeyCode.ENTER | KeyCode.TAB => {
+        if (GradeMatcher(subjectGrade.text()).isCorrect()) {
           val gradeValue = subjectGrade.text().toDouble
           subject.result = Some(Grade(gradeValue))
           mainController.updateResults()
+        } else if (subjectGrade.text().length == 0) {
+          subject.result = None
+          mainController.updateResults()
         }
-        case _ => {}
       }
+      case _ => {}
     }
   }
 

@@ -6,7 +6,7 @@ import javafx.{scene => jfxs}
 
 import com.typesafe.scalalogging.Logger
 import tobscore.sideprojects.gradecalc.{Semester, Subject}
-import tobscore.sideprojects.gradecalc.grade.{Grade, Passable}
+import tobscore.sideprojects.gradecalc.grade.{Fail, Grade, Pass, Passable}
 
 import scala.collection.mutable.ListBuffer
 import scalafx.Includes._
@@ -112,6 +112,10 @@ class MainController(val subjectList: VBox,
 
   override def updateResults(): Unit = {
     logger.trace("Updating the grade")
-    resultLabel.text() = semester.result().getOrElse("Not set").toString
+    resultLabel.text() = semester.result().getOrElse("-") match {
+      case Fail() => "Nicht bestanden"
+      case Pass() => "Bestanden"
+      case grade: Grade => grade.toString
+    }
   }
 }
