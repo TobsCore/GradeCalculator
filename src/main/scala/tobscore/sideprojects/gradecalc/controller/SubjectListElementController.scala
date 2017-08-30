@@ -4,6 +4,7 @@ import javafx.css.PseudoClass
 import javafx.scene.input.{KeyCode, KeyEvent}
 
 import com.typesafe.scalalogging.Logger
+import sun.plugin2.main.client.MessagePassingExecutionContext
 import tobscore.sideprojects.gradecalc.Subject
 import tobscore.sideprojects.gradecalc.grade.{Grade, GradeMatcher, Passable}
 
@@ -21,12 +22,14 @@ trait SubjectListElementControllerInterface {
 class SubjectListElementController(val subjectLabel: Label,
                                    val subjectGrade: TextField,
                                    val elementMenu: MenuButton,
+                                   val subjectPassing: Label,
                                    val subjectFinished: CheckBox) extends SubjectListElementControllerInterface {
 
   val logger = Logger(classOf[SubjectListElementController])
   var subject: Subject[Grade] = _
   var mainController: MainControllerInterface = _
   val errorStyle = PseudoClass.getPseudoClass("error")
+  val failingStyle = PseudoClass.getPseudoClass("failing")
 
   subjectFinished.selected <==> subjectGrade.disable
   subjectGrade.text.addListener((_, previousGradeText, gradeText) => {
@@ -42,6 +45,15 @@ class SubjectListElementController(val subjectLabel: Label,
     }
   })
 
+  def updatePassing(passing: Boolean): Unit = if (passing) {
+    subjectPassing.text() = "Bestanden"
+    subjectPassing.pseudoClassStateChanged(failingStyle, false)
+  } else {
+    subjectPassing.text() = "Nicht bestanden"
+    subjectPassing.pseudoClassStateChanged(failingStyle, true)
+  }
+
+
   def gradeValueKeyPress(event: KeyEvent): Unit = {
     val key = event.getCode()
 
@@ -49,11 +61,14 @@ class SubjectListElementController(val subjectLabel: Label,
       case KeyCode.ENTER | KeyCode.TAB => {
         if (GradeMatcher(subjectGrade.text()).isCorrect()) {
           val gradeValue = subjectGrade.text().toDouble
-          subject.result = Some(Grade(gradeValue))
+          val grade = Grade(gradeValue)
+          subject.result = Some(grade)
           mainController.updateResults()
+          updatePassing(grade.isPass)
         } else if (subjectGrade.text().length == 0) {
           subject.result = None
           mainController.updateResults()
+          updatePassing(false)
         }
       }
       case _ => {}
@@ -76,6 +91,7 @@ class SubjectListElementController(val subjectLabel: Label,
     subjectLabel.text <==> subject.name
     subjectFinished.selected <==> subject.isFinished
     subjectGrade.text() = subject.result.getOrElse("").toString
+    updatePassing(subject.isPass.getOrElse(false))
   }
 
   override def setMainController(controller: MainControllerInterface): Unit = {

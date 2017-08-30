@@ -15,7 +15,7 @@
 <GridPane prefHeight="30.0" vgap="10.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tobscore.sideprojects.gradecalc.controller.SubjectListElementController">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="200.0" />
-        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="70.0" />
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="110.0" />
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="40.0" />
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="130.0" />
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="95.0" />
@@ -25,8 +25,8 @@
     </rowConstraints>
     <children>
         <Label fx:id="subjectLabel" text="Fachname" />
-        <Label text="Bestanden" textFill="#aaaaaa" GridPane.columnIndex="1" />
-        <TextField fx:id="subjectGrade" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="40.0" text="2.3" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" onKeyPressed="#gradeValueKeyPress">
+        <Label fx:id="subjectPassing" text="Bestanden" textFill="#aaaaaa" GridPane.columnIndex="1" />
+        <TextField fx:id="subjectGrade" maxWidth="-Infinity" minWidth="-Infinity" onKeyPressed="#gradeValueKeyPress" prefHeight="27.0" prefWidth="40.0" text="2.3" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
             <GridPane.margin>
                 <Insets left="5.0" right="2.0" />
             </GridPane.margin>
