@@ -4,7 +4,7 @@ import javafx.css.PseudoClass
 import javafx.scene.input.{KeyCode, KeyEvent}
 
 import com.typesafe.scalalogging.Logger
-import tobscore.sideprojects.gradecalc.Subject
+import tobscore.sideprojects.gradecalc.MutableSubject
 import tobscore.sideprojects.gradecalc.grade.{Grade, GradeMatcher, Passable}
 
 import scalafx.Includes._
@@ -12,7 +12,7 @@ import scalafx.scene.control._
 import scalafxml.core.macros.sfxml
 
 trait SubjectListElementControllerInterface {
-  def setModel(model: Subject[Grade])
+  def setModel(model: MutableSubject[Grade])
 
   def setMainController(controller: MainControllerInterface)
 }
@@ -25,7 +25,7 @@ class SubjectListElementController(val subjectLabel: Label,
                                    val subjectFinished: CheckBox) extends SubjectListElementControllerInterface {
 
   val logger = Logger(classOf[SubjectListElementController])
-  var subject: Subject[Grade] = _
+  var subject: MutableSubject[Grade] = _
   var mainController: MainControllerInterface = _
   val errorStyle = PseudoClass.getPseudoClass("error")
   val failingStyle = PseudoClass.getPseudoClass("failing")
@@ -85,7 +85,7 @@ class SubjectListElementController(val subjectLabel: Label,
   def toggleFinished(): Unit = {
   }
 
-  override def setModel(model: Subject[Grade]): Unit = {
+  override def setModel(model: MutableSubject[Grade]): Unit = {
     subject = model
     subjectLabel.text <==> subject.name
     subjectFinished.selected <==> subject.isFinished

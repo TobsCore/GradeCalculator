@@ -1,7 +1,7 @@
 package tobscore.sideproject.gradecalc
 
 import org.scalatest.{BeforeAndAfter, FunSuite}
-import tobscore.sideprojects.gradecalc.{Professor, Subject}
+import tobscore.sideprojects.gradecalc.{Professor, MutableSubject}
 import tobscore.sideprojects.gradecalc.grade.{Fail, FailPass, Grade, Pass}
 
 import scalafx.beans.property.IntegerProperty
@@ -11,24 +11,24 @@ import scalafx.beans.property.IntegerProperty
   */
 class SubjectTest extends FunSuite with BeforeAndAfter {
 
-  var inMemoryDatabases: Subject[Grade] = _
-  var bigDataEngineering: Subject[Grade] = _
-  var computerVisionLab: Subject[FailPass] = _
-  var rzBetrieb: Subject[Grade] = _
-  var rhetorik: Subject[FailPass] = _
-  var recht: Subject[FailPass] = _
+  var inMemoryDatabases: MutableSubject[Grade] = _
+  var bigDataEngineering: MutableSubject[Grade] = _
+  var computerVisionLab: MutableSubject[FailPass] = _
+  var rzBetrieb: MutableSubject[Grade] = _
+  var rhetorik: MutableSubject[FailPass] = _
+  var recht: MutableSubject[FailPass] = _
 
-  var ex: Subject[Grade] = _
+  var ex: MutableSubject[Grade] = _
 
   before {
-    inMemoryDatabases = Subject("In Memory Datenbanken", Some(Grade(1.0)))
-    bigDataEngineering = Subject("Big DataEngineering", None)
-    rzBetrieb = Subject("RZ Betrieb", Some(Grade(4.7)))
-    computerVisionLab = Subject("Computer Vision Lab", Some(Fail()))
-    rhetorik = Subject("Rhetorik", Some(Pass()))
-    recht = Subject("Recht", None)
+    inMemoryDatabases = MutableSubject("In Memory Datenbanken", Some(Grade(1.0)))
+    bigDataEngineering = MutableSubject("Big DataEngineering", None)
+    rzBetrieb = MutableSubject("RZ Betrieb", Some(Grade(4.7)))
+    computerVisionLab = MutableSubject("Computer Vision Lab", Some(Fail()))
+    rhetorik = MutableSubject("Rhetorik", Some(Pass()))
+    recht = MutableSubject("Recht", None)
 
-    ex = Subject("Example", Some(Grade(1.3)))
+    ex = MutableSubject("Example", Some(Grade(1.3)))
   }
 
   test("Setting a new grade for class") {
@@ -60,21 +60,21 @@ class SubjectTest extends FunSuite with BeforeAndAfter {
   }
 
   test("Checking the weight of a subject") {
-   val tempSubject = Subject[Grade]("Example", Some(Grade(2.3)), 2)
+   val tempSubject = MutableSubject[Grade]("Example", Some(Grade(2.3)), 2)
     assertResult(Grade(2.3)) {
       tempSubject.result.get
     }
   }
 
   test("Test Subject for module") {
-    val subjectPassGrade = Subject[Grade]("General Webtechnologies", Some(Grade(1.3)))
+    val subjectPassGrade = MutableSubject[Grade]("General Webtechnologies", Some(Grade(1.3)))
     assertResult(Grade(1.3)) {
       subjectPassGrade.result.get
     }
   }
 
   test("Empty Grade") {
-    val exSubject = Subject[Grade]("Some example subject", None)
+    val exSubject = MutableSubject[Grade]("Some example subject", None)
     assertResult(None) {
       exSubject.result
     }
@@ -85,7 +85,7 @@ class SubjectTest extends FunSuite with BeforeAndAfter {
   }
 
   test("Checking if subject with no grade yet is graded") {
-    val exSub = Subject[Grade]("Example Subject", None)
+    val exSub = MutableSubject[Grade]("Example Subject", None)
     assertResult(None) {
       exSub.isGraded()
     }

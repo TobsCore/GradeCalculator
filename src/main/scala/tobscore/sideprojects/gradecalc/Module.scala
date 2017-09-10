@@ -9,9 +9,9 @@ import scala.collection.mutable.ListBuffer
   * Created by Tobias Kerst on 06.03.17.
   */
 class Module(name: String, professor: String) {
-  def -=(subjectList: List[Subject[_ <: Passable]]) = subjectList.foreach(subjects -= _)
+  def -=(subjectList: List[MutableSubject[_ <: Passable]]) = subjectList.foreach(subjects -= _)
 
-  def -=(subject: Subject[_ <: Passable]) = subjects -= subject
+  def -=(subject: MutableSubject[_ <: Passable]) = subjects -= subject
 
   def result: scala.Option[_ <: Passable] = {
     def containsFailedSubject(): Boolean = {
@@ -55,15 +55,15 @@ class Module(name: String, professor: String) {
     }
   }
 
-  def +=(subject: Subject[_ <: Passable]): Unit = {
+  def +=(subject: MutableSubject[_ <: Passable]): Unit = {
     subjects += subject
   }
 
-  def +=(subjectList: List[Subject[_ <: Passable]]): Unit = {
+  def +=(subjectList: List[MutableSubject[_ <: Passable]]): Unit = {
     subjects ++= subjectList
   }
 
-  var subjects: ListBuffer[Subject[_ <: Passable]] = new ListBuffer[Subject[_ <: Passable]]()
+  var subjects: ListBuffer[MutableSubject[_ <: Passable]] = new ListBuffer[MutableSubject[_ <: Passable]]()
 
   def amountOfSubjects: Int = subjects.size
 }

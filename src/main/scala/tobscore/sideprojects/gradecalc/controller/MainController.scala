@@ -5,7 +5,7 @@ import javafx.scene.layout.GridPane
 import javafx.{scene => jfxs}
 
 import com.typesafe.scalalogging.Logger
-import tobscore.sideprojects.gradecalc.{Semester, Subject}
+import tobscore.sideprojects.gradecalc.{MutableSemester, MutableSubject}
 import tobscore.sideprojects.gradecalc.grade.{Fail, Grade, Pass, Passable}
 
 import scala.collection.mutable.ListBuffer
@@ -18,7 +18,7 @@ import scalafxml.core.macros.sfxml
 import scalafxml.core.{FXMLLoader, FXMLView, NoDependencyResolver}
 
 trait MainControllerInterface {
-  def addSubject(subject: Subject[Grade]): Unit
+  def addSubject(subject: MutableSubject[Grade]): Unit
 
   def updateResults(): Unit
 }
@@ -32,7 +32,7 @@ class MainController(val subjectList: VBox,
                      val exactGradeLabel: Label) extends MainControllerInterface {
 
   val logger = Logger(classOf[MainController])
-  val semester: Semester = Semester(1)
+  val semester: MutableSemester = MutableSemester(1)
 
   def openAboutDialog(): Unit = {
     val aboutDialogFXML: String = "/AboutDialog.fxml"
@@ -90,7 +90,7 @@ class MainController(val subjectList: VBox,
     System.exit(0)
   }
 
-  override def addSubject(subject: Subject[Grade]): Unit = {
+  override def addSubject(subject: MutableSubject[Grade]): Unit = {
     def populateView(): Unit = {
       val label = new Label()
       label.text() = subject.name()
