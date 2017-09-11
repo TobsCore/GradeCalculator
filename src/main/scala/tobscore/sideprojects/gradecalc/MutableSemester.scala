@@ -20,6 +20,12 @@ case class MutableSemester(semesterNumber: Int) {
 
   }
 
+  def reset(semester: Semester) = {
+    subjects.clear()
+    semester.subjects.map(_.toMutableSubject).foreach(subjects += _)
+  }
+
+
   def calcResult(): Double = {
     var weightSum = 0
     var gradeAccumulator: Int = 0

@@ -20,26 +20,34 @@
 <VBox xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="tobscore.sideprojects.gradecalc.controller.MainController">
     <MenuBar useSystemMenuBar="true">
         <Menu mnemonicParsing="false" text="File">
-            <MenuItem disable="true" mnemonicParsing="false" text="Importieren" />
-            <MenuItem disable="true" mnemonicParsing="false" text="Exportieren" />
+            <MenuItem mnemonicParsing="false" text="Öffnen" onAction="#importPreset">
+                <accelerator>
+                    <KeyCodeCombination alt="UP" code="O" control="UP" meta="UP" shift="UP" shortcut="DOWN"/>
+                </accelerator>
+            </MenuItem>
+            <MenuItem mnemonicParsing="false" text="Speichern" onAction="#exportPreset">
+                <accelerator>
+                    <KeyCodeCombination code="S" alt="UP" control="UP" meta="UP" shift="UP" shortcut="DOWN"/>
+                </accelerator>
+            </MenuItem>
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem disable="true" mnemonicParsing="false" text="Einstellungen…" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" text="Beenden" onAction="#quitApplication">
                 <accelerator>
-                    <KeyCodeCombination alt="UP" code="Q" control="UP" meta="DOWN" shift="UP" shortcut="UP"/>
+                    <KeyCodeCombination alt="UP" code="Q" control="UP" meta="UP" shift="UP" shortcut="DOWN"/>
                 </accelerator>
             </MenuItem>
         </Menu>
         <Menu mnemonicParsing="false" text="Studium">
             <MenuItem mnemonicParsing="false" onAction="#displayNewSubjectDialog" text="Neues Fach">
                 <accelerator>
-                    <KeyCodeCombination alt="UP" code="N" control="UP" meta="DOWN" shift="UP" shortcut="UP" />
+                    <KeyCodeCombination alt="UP" code="N" control="UP" meta="UP" shift="UP" shortcut="DOWN"/>
                 </accelerator>
             </MenuItem>
             <MenuItem disable="true" mnemonicParsing="false" text="Neues Modul">
                 <accelerator>
-                    <KeyCodeCombination alt="UP" code="N" control="UP" meta="DOWN" shift="DOWN" shortcut="UP" />
+                    <KeyCodeCombination alt="UP" code="N" control="UP" meta="UP" shift="DOWN" shortcut="DOWN" />
                 </accelerator>
             </MenuItem>
         </Menu>

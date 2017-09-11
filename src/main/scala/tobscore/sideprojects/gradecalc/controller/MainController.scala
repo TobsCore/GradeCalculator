@@ -1,11 +1,11 @@
 package tobscore.sideprojects.gradecalc.controller
 
-import java.io.IOException
+import java.io.{File, IOException}
 import javafx.scene.layout.GridPane
 import javafx.{scene => jfxs}
 
 import com.typesafe.scalalogging.Logger
-import tobscore.sideprojects.gradecalc.{MutableSemester, MutableSubject}
+import tobscore.sideprojects.gradecalc._
 import tobscore.sideprojects.gradecalc.grade.{Fail, Grade, Pass, Passable}
 
 import scala.collection.mutable.ListBuffer
@@ -13,7 +13,8 @@ import scalafx.Includes._
 import scalafx.application.Platform
 import scalafx.scene.control.{Label, TextField}
 import scalafx.scene.layout.VBox
-import scalafx.stage.{Modality, Stage}
+import scalafx.stage.FileChooser.ExtensionFilter
+import scalafx.stage.{FileChooser, Modality, Stage}
 import scalafxml.core.macros.sfxml
 import scalafxml.core.{FXMLLoader, FXMLView, NoDependencyResolver}
 
@@ -33,6 +34,12 @@ class MainController(val subjectList: VBox,
 
   val logger = Logger(classOf[MainController])
   val semester: MutableSemester = MutableSemester(1)
+  val fileChooser = new FileChooser() {
+    title() = "Vorlage Speichern"
+    initialFileName() = "Name"
+    extensionFilters.add(new ExtensionFilter("Grade Calc Format", "*.gradecalc"))
+  }
+  val serializer = new Serializer[Semester]()
 
   def openAboutDialog(): Unit = {
     val aboutDialogFXML: String = "/AboutDialog.fxml"
@@ -57,6 +64,9 @@ class MainController(val subjectList: VBox,
     }
   }
 
+  def resetSubjectList(): Unit = {
+    subjectList.children.clear()
+  }
 
   def displayNewSubjectDialog(): Unit = {
     val addSubjectDialogFXML: String = "/AddSubjectDialog.fxml"
@@ -82,6 +92,31 @@ class MainController(val subjectList: VBox,
       aboutStage.show()
     } else {
       aboutStage.requestFocus()
+    }
+  }
+
+  def importPreset(): Unit = {
+    val file = fileChooser.showOpenDialog(subjectList.getScene.getWindow)
+    if (file != null) {
+      logger.info(s"Importing preset from ${file.getAbsolutePath}")
+
+      val importedSemester = serializer.deserialize(file.getAbsolutePath)
+      semester.reset(importedSemester)
+      resetSubjectList()
+
+      logger.debug(s"Loaded semester with ${importedSemester.subjects.length} subjects")
+
+      semester.subjects.map(a => a.asInstanceOf[MutableSubject[Grade]]).foreach(addSubject(_))
+    }
+  }
+
+  def exportPreset(): Unit = {
+
+    val file: File = fileChooser.showSaveDialog(subjectList.getScene.getWindow)
+    if (file != null) {
+      val serializableSemester = semester.toSerializable()
+      serializer.serialize(serializableSemester, file.getAbsolutePath)
+      logger.info(s"Exporting preset to ${file.getAbsolutePath}")
     }
   }
 
