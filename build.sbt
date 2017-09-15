@@ -2,6 +2,8 @@ name := "GradeCalculator"
 version := "1.0"
 scalaVersion := "2.12.3"
 
+test in assembly := {}
+
 libraryDependencies += "org.scalactic" %% "scalactic" % "3.0.1"
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.1" % "test"
 libraryDependencies += "org.scalafx" %% "scalafx" % "8.0.102-R11"
@@ -22,3 +24,4 @@ addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.fu
 fork in run := true
 
 mainClass in Compile := Some("tobscore.sideprojects.gradecalc.GradeCalculator")
+mainClass in assembly := Some("tobscore.sideprojects.gradecalc.GradeCalculator")
