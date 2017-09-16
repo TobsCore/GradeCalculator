@@ -75,11 +75,11 @@ class SubjectListElementController(val subjectLabel: Label,
   }
 
   def editEntry(): Unit = {
-    println(s"Editing entry ${subjectLabel.text()}")
+    logger.info(s"Editing entry ${subjectLabel.text()}")
   }
 
   def deleteEntry(): Unit = {
-    println(s"Deleting entry ${subjectLabel.text()}")
+    logger.info(s"Deleting entry ${subjectLabel.text()}")
   }
 
   def toggleFinished(): Unit = {

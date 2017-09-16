@@ -31,14 +31,13 @@ class AddSubjectDialogController(val subjectIdentifier: TextField,
 
   var controller: Option[MainControllerInterface] = None
   val logger = Logger(classOf[AddSubjectDialogController])
+  val errorStyle = PseudoClass.getPseudoClass("error")
 
   subjectIdentifier.text.addListener((_, _, subjectIdentifiertText) => {
     accept.disable() = subjectIdentifiertText.length <= 0
   })
 
   subjectGrade.text.addListener((_, previousGradeText, gradeText) => {
-    val errorStyle = PseudoClass.getPseudoClass("error")
-
     if (gradeText.length > 3) {
       subjectGrade.text() = previousGradeText
     } else if (gradeText.length == 0) {
@@ -47,6 +46,19 @@ class AddSubjectDialogController(val subjectIdentifier: TextField,
       subjectGrade.pseudoClassStateChanged(errorStyle, true)
     } else {
       subjectGrade.pseudoClassStateChanged(errorStyle, false)
+    }
+  })
+
+  subjectGradeWeight.text.addListener((_, previousWeight, weight) => {
+    try {
+      val weightValue = Integer.parseInt(weight)
+      if (weightValue >= 0 && weightValue < 100) {
+        subjectGradeWeight.pseudoClassStateChanged(errorStyle, false)
+      } else {
+        subjectGradeWeight.pseudoClassStateChanged(errorStyle, true)
+      }
+    } catch {
+      case e => subjectGradeWeight.pseudoClassStateChanged(errorStyle, true)
     }
   })
 
@@ -93,8 +105,15 @@ class AddSubjectDialogController(val subjectIdentifier: TextField,
       }
     }
 
-    val subject = createSubject()
-    controller.getOrElse(throw new IllegalStateException("No remote controller defined")).addSubject(subject)
+    try {
+      val subject = createSubject()
+      controller.getOrElse(throw new IllegalStateException("No remote controller defined")).addSubject(subject)
+    } catch {
+      case e => {
+        new Alert(AlertType.Error, s"${subjectGrade.text()} is not a valid grade").showAndWait()
+        return
+      }
+    }
 
     quitDialog()
   }
