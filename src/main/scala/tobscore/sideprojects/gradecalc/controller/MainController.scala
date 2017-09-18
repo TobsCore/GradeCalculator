@@ -164,7 +164,8 @@ class MainController(val subjectList: VBox,
         resultLabel.text() = "Bestanden"
       }
       case grade: Grade => {
-        exactGradeLabel.text() = s"(${semester.calcResult().toString})"
+        exactGradeLabel.text() = s"(${semester.exactGradeResult().toString})"
+        logger.info("Calling from here")
         resultLabel.text() = grade.toString
       }
     }

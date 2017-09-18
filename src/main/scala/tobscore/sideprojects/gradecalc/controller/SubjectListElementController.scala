@@ -1,20 +1,29 @@
 package tobscore.sideprojects.gradecalc.controller
 
+import java.io.IOException
 import javafx.css.PseudoClass
 import javafx.scene.input.{KeyCode, KeyEvent}
+import javafx.{scene => jfxs}
 
 import com.typesafe.scalalogging.Logger
 import tobscore.sideprojects.gradecalc.MutableSubject
 import tobscore.sideprojects.gradecalc.grade.{Grade, GradeMatcher, Passable}
 
 import scalafx.Includes._
+import scalafx.beans.property.{BooleanProperty, IntegerProperty, StringProperty}
 import scalafx.scene.control._
+import scalafx.stage.{Modality, Stage}
+import scalafxml.core.{FXMLLoader, NoDependencyResolver}
 import scalafxml.core.macros.sfxml
 
 trait SubjectListElementControllerInterface {
   def setModel(model: MutableSubject[Grade])
 
   def setMainController(controller: MainControllerInterface)
+}
+
+trait SubjectListElementControllerIntertface {
+  def receiveUpdatedSubject(subject: MutableSubject[Grade]): Unit
 }
 
 @sfxml
@@ -76,6 +85,30 @@ class SubjectListElementController(val subjectLabel: Label,
 
   def editEntry(): Unit = {
     logger.info(s"Editing entry ${subjectLabel.text()}")
+    val addSubjectDialogFXML: String = "/AddSubjectDialog.fxml"
+    val resource = getClass.getResource(addSubjectDialogFXML)
+    if (resource == null) {
+      throw new IOException(s"Cannot load $addSubjectDialogFXML")
+    }
+    val loader = new FXMLLoader(resource, NoDependencyResolver)
+    loader.load()
+    val controller = loader.getController[MainControllerReceiver]
+    controller.initController(this)
+
+    val root = loader.getRoot[jfxs.Parent]
+
+    val aboutStage = new Stage() {
+      title = "Add Subject"
+      scene = new jfxs.Scene(root)
+      resizable = false
+      initModality(Modality.ApplicationModal)
+    }
+
+    if (!aboutStage.showing()) {
+      aboutStage.show()
+    } else {
+      aboutStage.requestFocus()
+    }
   }
 
   def deleteEntry(): Unit = {

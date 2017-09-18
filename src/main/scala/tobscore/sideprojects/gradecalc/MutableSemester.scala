@@ -1,10 +1,12 @@
 package tobscore.sideprojects.gradecalc
 
+import com.typesafe.scalalogging.Logger
 import tobscore.sideprojects.gradecalc.grade._
 
 import scala.collection.mutable.ListBuffer
 
 case class MutableSemester(semesterNumber: Int) {
+  val logger = Logger(classOf[MutableSemester])
   val subjects: ListBuffer[MutableSubject[_ <: Passable]] = new ListBuffer
 
   def +=(subject: MutableSubject[_ <: Passable]): Unit = {
@@ -25,8 +27,11 @@ case class MutableSemester(semesterNumber: Int) {
     semester.subjects.map(_.toMutableSubject).foreach(subjects += _)
   }
 
+  def exactGradeResult(): Double = calcResult()
 
-  def calcResult(): Double = {
+
+  private def calcResult(): Double = {
+    logger.info("In Mutable semester")
     var weightSum = 0
     var gradeAccumulator: Int = 0
     subjects.map(_.result.get).filter(_.isInstanceOf[Grade]).map(_.asInstanceOf[Grade]).foldLeft(0.0)((a: Double, b: Grade) => b.grade + a)

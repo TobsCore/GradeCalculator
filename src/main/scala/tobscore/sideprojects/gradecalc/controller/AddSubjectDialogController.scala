@@ -10,12 +10,15 @@ import com.typesafe.scalalogging.Logger
 import tobscore.sideprojects.gradecalc.MutableSubject
 import tobscore.sideprojects.gradecalc.grade.{FailPass, Grade, GradeMatcher, Passable}
 
+import scalafx.beans.property.{BooleanProperty, IntegerProperty, StringProperty}
 import scalafx.scene.control.Alert.AlertType
 import scalafx.scene.control._
 import scalafxml.core.macros.sfxml
 
 trait MainControllerReceiver {
-  def initController(controller: MainControllerInterface)
+  def initController(controller: MainControllerInterface): Unit
+
+  def initController(controller: SubjectListElementControllerInterface): Unit
 }
 
 @sfxml
@@ -29,37 +32,58 @@ class AddSubjectDialogController(val subjectIdentifier: TextField,
                                  val cancel: Button,
                                  val accept: Button) extends MainControllerReceiver {
 
-  var controller: Option[MainControllerInterface] = None
+  var mainController: Option[MainControllerInterface] = None
+  var elementController: Option[SubjectListElementControllerInterface] = None
   val logger = Logger(classOf[AddSubjectDialogController])
   val errorStyle = PseudoClass.getPseudoClass("error")
-
-  subjectIdentifier.text.addListener((_, _, subjectIdentifiertText) => {
-    accept.disable() = subjectIdentifiertText.length <= 0
-  })
+  val subject = new MutableSubject[Grade](StringProperty(""), None, weight = IntegerProperty(1), IntegerProperty(0), None, BooleanProperty(false))
+  subject.name <==> subjectIdentifier.text
 
   subjectGrade.text.addListener((_, previousGradeText, gradeText) => {
     if (gradeText.length > 3) {
       subjectGrade.text() = previousGradeText
-    } else if (gradeText.length == 0) {
-      subjectGrade.pseudoClassStateChanged(errorStyle, false)
-    } else if (!GradeMatcher(gradeText).isCorrect()) {
-      subjectGrade.pseudoClassStateChanged(errorStyle, true)
     } else {
-      subjectGrade.pseudoClassStateChanged(errorStyle, false)
+      val gradeIsCorrect = if (gradeText.length == 0) {
+        true
+      } else if (!GradeMatcher(gradeText).isCorrect()) {
+        false
+      } else {
+        true
+      }
+      subjectGrade.pseudoClassStateChanged(errorStyle, !gradeIsCorrect)
+      accept.disable() = !gradeIsCorrect
+
+      subject.result = if (gradeIsCorrect && gradeText.nonEmpty) {
+        Some(Grade(gradeText.toDouble))
+      } else {
+        None
+      }
     }
   })
 
   subjectGradeWeight.text.addListener((_, previousWeight, weight) => {
-    try {
+    val weightIsCorrect = try {
       val weightValue = Integer.parseInt(weight)
-      if (weightValue >= 0 && weightValue < 100) {
-        subjectGradeWeight.pseudoClassStateChanged(errorStyle, false)
+      if (weightValue > 0 && weightValue < 100) {
+        true
       } else {
-        subjectGradeWeight.pseudoClassStateChanged(errorStyle, true)
+        false
       }
     } catch {
-      case e => subjectGradeWeight.pseudoClassStateChanged(errorStyle, true)
+      case e: Exception => false
     }
+    subjectGradeWeight.pseudoClassStateChanged(errorStyle, !weightIsCorrect)
+    accept.disable() = !weightIsCorrect
+
+    subject.weight = if (weightIsCorrect && weight.nonEmpty) {
+      IntegerProperty(weight.toInt)
+    } else {
+      IntegerProperty(1)
+    }
+  })
+
+  subjectIdentifier.text.addListener((_, _, subjectIdentifierText) => {
+    accept.disable() = subjectIdentifierText.length <= 0
   })
 
   subjectPass.visible <==> subjectPassLabel.visible
@@ -76,45 +100,8 @@ class AddSubjectDialogController(val subjectIdentifier: TextField,
   })
 
   def addSubject(): Unit = {
-    val gradeType: String = subjectType.getValue
-    val subjectName: String = subjectIdentifier.text()
-    val weight: Option[Int] = try {
-      Some(subjectGradeWeight.text().toInt)
-    } catch {
-      case _: NumberFormatException => None
-    }
-
-    if (weight.isEmpty) {
-      new Alert(AlertType.Warning, s"'${subjectGradeWeight.text()}' is not a valid number.").showAndWait()
-      return
-    }
-
-    def createSubject(): MutableSubject[Grade] = {
-      if (gradeType.equalsIgnoreCase("Benotung")) {
-        val grade: Option[Grade] = if (subjectGrade.text().length == 0) {
-          None
-        } else {
-          Some(new Grade(subjectGrade.text().toDouble))
-        }
-        MutableSubject[Grade](subjectName, grade, weight.get)
-      } else {
-        //TODO: Implement Fail Pass subject
-        //Subject[FailPass](subjectName, None, weight.get)
-        logger.error("The method to add a subject that is only fail/pass is not implemented, yet")
-        MutableSubject[Grade](subjectName, None, weight.get)
-      }
-    }
-
-    try {
-      val subject = createSubject()
-      controller.getOrElse(throw new IllegalStateException("No remote controller defined")).addSubject(subject)
-    } catch {
-      case e => {
-        new Alert(AlertType.Error, s"${subjectGrade.text()} is not a valid grade").showAndWait()
-        return
-      }
-    }
-
+    mainController.getOrElse(throw new IllegalStateException("No remote controller defined")).addSubject(subject)
+    //mainController.getOrElse(throw new IllegalStateException("No remote controller defined")).addSubject(MutableSubject[Grade]("Hello World", Some(Grade(2.3))))
     quitDialog()
   }
 
@@ -124,6 +111,10 @@ class AddSubjectDialogController(val subjectIdentifier: TextField,
   }
 
   override def initController(controller: MainControllerInterface): Unit = {
-    this.controller = Some(controller)
+    this.mainController = Some(controller)
+  }
+
+  override def initController(controller: SubjectListElementControllerInterface): Unit = {
+    this.elementController = Some(controller)
   }
 }

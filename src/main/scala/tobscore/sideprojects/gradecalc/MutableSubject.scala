@@ -14,7 +14,7 @@ case class MutableSubject[T <: Passable](var name: StringProperty, var result: O
     case None => None
   }
 
-  require(weight() >= 0, "Weight cannot be less than 0")
+  require(weight() > 0, "Weight cannot be less than 1")
   var identifier: String = _
 
   def isPass: Option[Boolean] = result match {
