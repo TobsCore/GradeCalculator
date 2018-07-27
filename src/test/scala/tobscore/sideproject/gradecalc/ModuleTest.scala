@@ -27,8 +27,8 @@ class ModuleTest extends FunSuite with BeforeAndAfter {
     subjectPassGrade2 = MutableSubject[Grade]("Applied Webtechnologies", Some(Grade(2.3)), weight = 2)
     subjectPassGrade3 = MutableSubject[Grade]("Styling Webpages via CSS", Some(Grade(2.0)))
     subjectFailGrade1 = MutableSubject[Grade]("Javascript Goodies", Some(Grade(4.3)))
-    subjectPass1 = MutableSubject[FailPass]("Statistical Approach in Web", Some(Pass()), 0, 1, Some(Professor("Prof. Dr. Exampleton")), false)
-    subjectFail1 = MutableSubject[FailPass]("Enterprise Web Technologies", Some(Fail()), weight = 0)
+    subjectPass1 = MutableSubject[FailPass]("Statistical Approach in Web", Some(Pass()), 1, 1, Some(Professor("Prof. Dr. Exampleton")), isFinished = false)
+    subjectFail1 = MutableSubject[FailPass]("Enterprise Web Technologies", Some(Fail()), weight = 1)
 
     moduleGradeOnly = new Module("WebTechnologies", "Prof. Dr. Mighty Examplus")
     moduleGradeOnly += List(subjectPassGrade1, subjectPassGrade2)

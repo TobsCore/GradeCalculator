@@ -1,6 +1,6 @@
 name := "GradeCalculator"
 version := "0.1"
-scalaVersion := "2.12.3"
+scalaVersion := "2.12.6"
 
 test in assembly := {}
 
@@ -15,7 +15,7 @@ libraryDependencies += "com.typesafe.scala-logging" %% "scala-logging" % "3.7.2"
 
 
 // Includes the JavaFX Stylesheet, when SBT is run from the terminal
-unmanagedJars in Compile += Attributed.blank(file(System.getenv("JAVA_HOME") + "/lib/ext/jfxrt.jar"))
+unmanagedJars in Compile += Attributed.blank(file(System.getenv("JAVA_HOME") + "/jre/lib/ext/jfxrt.jar"))
 
 // Needed in order to make scalamacros work
 addCompilerPlugin("org.scalamacros" % "paradise" % "2.1.0" cross CrossVersion.full)

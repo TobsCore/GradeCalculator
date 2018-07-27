@@ -61,7 +61,7 @@ class AddSubjectDialogController(val subjectIdentifier: TextField,
     }
   })
 
-  subjectGradeWeight.text.addListener((_, previousWeight, weight) => {
+  subjectGradeWeight.text.addListener((_, _, weight) => {
     val weightIsCorrect = try {
       val weightValue = Integer.parseInt(weight)
       if (weightValue > 0 && weightValue < 100) {
@@ -70,7 +70,7 @@ class AddSubjectDialogController(val subjectIdentifier: TextField,
         false
       }
     } catch {
-      case e: Exception => false
+      case _: Exception => false
     }
     subjectGradeWeight.pseudoClassStateChanged(errorStyle, !weightIsCorrect)
     accept.disable() = !weightIsCorrect

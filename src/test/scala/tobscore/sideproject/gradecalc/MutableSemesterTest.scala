@@ -12,10 +12,6 @@ class MutableSemesterTest extends FunSuite with BeforeAndAfter {
     semester = MutableSemester(1)
   }
 
-  test("Creating a semester") {
-    val testSemester = MutableSemester(1);
-  }
-
   test("Add subject to semester") {
     var subject1 = MutableSubject("Subject 1", None)
     semester += subject1
@@ -31,14 +27,14 @@ class MutableSemesterTest extends FunSuite with BeforeAndAfter {
   }
 
   test("Calculate the average of one graded subject") {
-    var subject = MutableSubject[Grade]("Subject", Some(Grade(2.3)))
+    val subject = MutableSubject[Grade]("Subject", Some(Grade(2.3)))
     assertResult(Grade(2.3)) {
       subject.result.get
     }
   }
 
   test("Get result for one pass subject") {
-    var subject = MutableSubject[FailPass]("Subject", Some(Pass()))
+    val subject = MutableSubject[FailPass]("Subject", Some(Pass()))
     semester += subject
     assertResult(Pass()) {
       semester.result.get
@@ -52,8 +48,8 @@ class MutableSemesterTest extends FunSuite with BeforeAndAfter {
   }
 
   test("Result of pass and graded passing subject") {
-    var subjectPass = MutableSubject[FailPass]("Subject Pass", Some(Pass()))
-    var subjectGradedPass = MutableSubject[Grade]("Subject Graded and Passing", Some(Grade(1.3)))
+    val subjectPass = MutableSubject[FailPass]("Subject Pass", Some(Pass()))
+    val subjectGradedPass = MutableSubject[Grade]("Subject Graded and Passing", Some(Grade(1.3)))
     semester += List(subjectPass, subjectGradedPass)
     assertResult(Grade(1.3)) {
       semester.result.get
@@ -62,8 +58,8 @@ class MutableSemesterTest extends FunSuite with BeforeAndAfter {
   }
 
   test("Result of one failing and one passing graded subject") {
-    var subjectFail = MutableSubject[FailPass]("Subject Fail", Some(Fail()))
-    var subjectPassGraded = MutableSubject[Grade]("Grades Subject", Some(Grade(2.3)))
+    val subjectFail = MutableSubject[FailPass]("Subject Fail", Some(Fail()))
+    val subjectPassGraded = MutableSubject[Grade]("Grades Subject", Some(Grade(2.3)))
     semester += List(subjectFail, subjectPassGraded)
     assertResult(Fail()) {
       semester.result.get

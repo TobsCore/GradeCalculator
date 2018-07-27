@@ -22,10 +22,6 @@ class Module(name: String, professor: String) {
       subjects.map(_.result.get).filter(_.isInstanceOf[Grade]).nonEmpty
     }
 
-    var gradeAccumulator: Double = 0
-    var gradeWeight: Int = 0
-    var result: Option[_ <: Passable] = None
-
     if (subjects.isEmpty) {
       None
     } else if (containsFailedSubject()) {
