@@ -29,7 +29,8 @@ class SubjectListElementController(val subjectLabel: Label,
                                    val subjectGrade: TextField,
                                    val elementMenu: MenuButton,
                                    val subjectPassing: Label,
-                                   val subjectFinished: CheckBox) extends SubjectListElementControllerInterface {
+                                   val subjectFinished: CheckBox)
+    extends SubjectListElementControllerInterface {
 
   val logger = Logger(classOf[SubjectListElementController])
   var subject: MutableSubject[Grade] = _
@@ -51,14 +52,14 @@ class SubjectListElementController(val subjectLabel: Label,
     }
   })
 
-  def updatePassing(passing: Boolean): Unit = if (passing) {
-    subjectPassing.text() = "Bestanden"
-    subjectPassing.pseudoClassStateChanged(failingStyle, false)
-  } else {
-    subjectPassing.text() = "Nicht bestanden"
-    subjectPassing.pseudoClassStateChanged(failingStyle, true)
-  }
-
+  def updatePassing(passing: Boolean): Unit =
+    if (passing) {
+      subjectPassing.text() = "Bestanden"
+      subjectPassing.pseudoClassStateChanged(failingStyle, false)
+    } else {
+      subjectPassing.text() = "Nicht bestanden"
+      subjectPassing.pseudoClassStateChanged(failingStyle, true)
+    }
 
   def gradeValueKeyPress(event: KeyEvent): Unit = {
     val key = event.getCode
@@ -112,8 +113,7 @@ class SubjectListElementController(val subjectLabel: Label,
     logger.info(s"Deleting entry ${subjectLabel.text()}")
   }
 
-  def toggleFinished(): Unit = {
-  }
+  def toggleFinished(): Unit = {}
 
   override def setModel(model: MutableSubject[Grade]): Unit = {
     subject = model

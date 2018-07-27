@@ -25,13 +25,20 @@ class AddSubjectDialogController(val subjectIdentifier: TextField,
                                  val subjectGradeWeight: TextField,
                                  val subjectType: ComboBox[String],
                                  val cancel: Button,
-                                 val accept: Button) extends MainControllerReceiver {
+                                 val accept: Button)
+    extends MainControllerReceiver {
 
   var mainController: Option[MainControllerInterface] = None
   var elementController: Option[SubjectListElementControllerInterface] = None
   val logger = Logger(classOf[AddSubjectDialogController])
   val errorStyle: PseudoClass = PseudoClass.getPseudoClass("error")
-  val subject = new MutableSubject[Grade](StringProperty(""), None, weight = IntegerProperty(1), IntegerProperty(0), None, BooleanProperty(false))
+
+  val subject = new MutableSubject[Grade](StringProperty(""),
+                                          None,
+                                          weight = IntegerProperty(1),
+                                          IntegerProperty(0),
+                                          None,
+                                          BooleanProperty(false))
   subject.name <==> subjectIdentifier.text
 
   subjectGrade.text.addListener((_, previousGradeText, gradeText) => {
@@ -95,7 +102,9 @@ class AddSubjectDialogController(val subjectIdentifier: TextField,
   })
 
   def addSubject(): Unit = {
-    mainController.getOrElse(throw new IllegalStateException("No remote controller defined")).addSubject(subject)
+    mainController
+      .getOrElse(throw new IllegalStateException("No remote controller defined"))
+      .addSubject(subject)
     //mainController.getOrElse(throw new IllegalStateException("No remote controller defined")).addSubject(MutableSubject[Grade]("Hello World", Some(Grade(2.3))))
     quitDialog()
   }

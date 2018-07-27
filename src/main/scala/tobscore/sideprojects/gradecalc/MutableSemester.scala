@@ -29,11 +29,14 @@ case class MutableSemester(semesterNumber: Int) {
 
   def exactGradeResult(): Double = calcResult()
 
-
   private def calcResult(): Double = {
     var weightSum = 0
     var gradeAccumulator: Int = 0
-    subjects.map(_.result.get).filter(_.isInstanceOf[Grade]).map(_.asInstanceOf[Grade]).foldLeft(0.0)((a: Double, b: Grade) => b.grade + a)
+    subjects
+      .map(_.result.get)
+      .filter(_.isInstanceOf[Grade])
+      .map(_.asInstanceOf[Grade])
+      .foldLeft(0.0)((a: Double, b: Grade) => b.grade + a)
 
     for (subject <- subjects) {
       subject.result.get match {

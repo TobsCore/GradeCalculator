@@ -17,6 +17,6 @@ case class GradeMatcher(s: String) {
 
   def matches(): Boolean = s match {
     case pattern() => true
-    case _ => false
+    case _         => false
   }
 }

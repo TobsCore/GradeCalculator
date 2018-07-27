@@ -26,12 +26,12 @@ trait MainControllerInterface {
   * Created by Tobias Kerst on 08.03.17.
   */
 @sfxml
-class MainController(val subjectList: VBox,
-                     val resultLabel: Label,
-                     val exactGradeLabel: Label) extends MainControllerInterface {
+class MainController(val subjectList: VBox, val resultLabel: Label, val exactGradeLabel: Label)
+    extends MainControllerInterface {
 
   val logger = Logger(classOf[MainController])
   val semester: MutableSemester = MutableSemester(1)
+
   val fileChooser: FileChooser = new FileChooser() {
     title() = "Vorlage Speichern"
     initialFileName() = "Name"
@@ -142,7 +142,6 @@ class MainController(val subjectList: VBox,
 
       subjectList.children.add(root)
     }
-
 
     logger.info(s"Adding subject ${subject.name}")
     populateView()

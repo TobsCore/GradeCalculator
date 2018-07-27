@@ -3,6 +3,7 @@ package tobscore.sideprojects.gradecalc
 import java.io.{FileInputStream, FileOutputStream, ObjectInputStream, ObjectOutputStream}
 
 class Serializer[T]() {
+
   def serialize(obj: T, path: String): Unit = {
     val oos = new ObjectOutputStream(new FileOutputStream(path))
     oos.writeObject(obj)
