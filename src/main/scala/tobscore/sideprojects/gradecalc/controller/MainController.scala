@@ -1,22 +1,20 @@
 package tobscore.sideprojects.gradecalc.controller
 
 import java.io.{File, IOException}
-import javafx.scene.layout.GridPane
-import javafx.{scene => jfxs}
 
 import com.typesafe.scalalogging.Logger
-import tobscore.sideprojects.gradecalc._
-import tobscore.sideprojects.gradecalc.grade.{Fail, Grade, Pass, Passable}
-
-import scala.collection.mutable.ListBuffer
+import javafx.scene.layout.GridPane
+import javafx.{scene => jfxs}
 import scalafx.Includes._
 import scalafx.application.Platform
-import scalafx.scene.control.{Label, TextField}
+import scalafx.scene.control.Label
 import scalafx.scene.layout.VBox
 import scalafx.stage.FileChooser.ExtensionFilter
 import scalafx.stage.{FileChooser, Modality, Stage}
 import scalafxml.core.macros.sfxml
 import scalafxml.core.{FXMLLoader, FXMLView, NoDependencyResolver}
+import tobscore.sideprojects.gradecalc._
+import tobscore.sideprojects.gradecalc.grade.{Fail, Grade, Pass}
 
 trait MainControllerInterface {
   def addSubject(subject: MutableSubject[Grade]): Unit
@@ -34,7 +32,7 @@ class MainController(val subjectList: VBox,
 
   val logger = Logger(classOf[MainController])
   val semester: MutableSemester = MutableSemester(1)
-  val fileChooser = new FileChooser() {
+  val fileChooser: FileChooser = new FileChooser() {
     title() = "Vorlage Speichern"
     initialFileName() = "Name"
     extensionFilters.add(new ExtensionFilter("Grade Calc Format", "*.gradecalc"))
@@ -106,7 +104,7 @@ class MainController(val subjectList: VBox,
 
       logger.debug(s"Loaded semester with ${importedSemester.subjects.length} subjects")
 
-      semester.subjects.map(a => a.asInstanceOf[MutableSubject[Grade]]).foreach(addSubject(_))
+      semester.subjects.map(a => a.asInstanceOf[MutableSubject[Grade]]).foreach(addSubject)
     }
   }
 
@@ -114,7 +112,7 @@ class MainController(val subjectList: VBox,
 
     val file: File = fileChooser.showSaveDialog(subjectList.getScene.getWindow)
     if (file != null) {
-      val serializableSemester = semester.toSerializable()
+      val serializableSemester = semester.toSerializable
       serializer.serialize(serializableSemester, file.getAbsolutePath)
       logger.info(s"Exporting preset to ${file.getAbsolutePath}")
     }
@@ -154,19 +152,18 @@ class MainController(val subjectList: VBox,
 
   override def updateResults(): Unit = {
     logger.trace("Updating the grade")
-    semester.result().getOrElse("-") match {
-      case Fail() => {
-        exactGradeLabel.text() = ""
-        resultLabel.text() = "Nicht bestanden"
-      }
-      case Pass() => {
-        exactGradeLabel.text() = ""
-        resultLabel.text() = "Bestanden"
-      }
-      case grade: Grade => {
-        exactGradeLabel.text() = s"(${semester.exactGradeResult().toString})"
-        logger.info("Calling from here")
-        resultLabel.text() = grade.toString
+    if (semester.result().isDefined) {
+      semester.result().get match {
+        case Fail() =>
+          exactGradeLabel.text() = ""
+          resultLabel.text() = "Nicht bestanden"
+        case Pass() =>
+          exactGradeLabel.text() = ""
+          resultLabel.text() = "Bestanden"
+        case grade: Grade =>
+          exactGradeLabel.text() = s"(${semester.exactGradeResult().toString})"
+          logger.info("Calling from here")
+          resultLabel.text() = grade.toString
       }
     }
   }

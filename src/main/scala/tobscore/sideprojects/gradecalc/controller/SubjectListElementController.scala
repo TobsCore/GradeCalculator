@@ -1,20 +1,18 @@
 package tobscore.sideprojects.gradecalc.controller
 
 import java.io.IOException
+
+import com.typesafe.scalalogging.Logger
 import javafx.css.PseudoClass
 import javafx.scene.input.{KeyCode, KeyEvent}
 import javafx.{scene => jfxs}
-
-import com.typesafe.scalalogging.Logger
-import tobscore.sideprojects.gradecalc.MutableSubject
-import tobscore.sideprojects.gradecalc.grade.{Grade, GradeMatcher, Passable}
-
 import scalafx.Includes._
-import scalafx.beans.property.{BooleanProperty, IntegerProperty, StringProperty}
 import scalafx.scene.control._
 import scalafx.stage.{Modality, Stage}
-import scalafxml.core.{FXMLLoader, NoDependencyResolver}
 import scalafxml.core.macros.sfxml
+import scalafxml.core.{FXMLLoader, NoDependencyResolver}
+import tobscore.sideprojects.gradecalc.MutableSubject
+import tobscore.sideprojects.gradecalc.grade.{Grade, GradeMatcher}
 
 trait SubjectListElementControllerInterface {
   def setModel(model: MutableSubject[Grade])
@@ -36,8 +34,8 @@ class SubjectListElementController(val subjectLabel: Label,
   val logger = Logger(classOf[SubjectListElementController])
   var subject: MutableSubject[Grade] = _
   var mainController: MainControllerInterface = _
-  val errorStyle = PseudoClass.getPseudoClass("error")
-  val failingStyle = PseudoClass.getPseudoClass("failing")
+  val errorStyle: PseudoClass = PseudoClass.getPseudoClass("error")
+  val failingStyle: PseudoClass = PseudoClass.getPseudoClass("failing")
 
   subjectFinished.selected <==> subjectGrade.disable
   subjectGrade.text.addListener((_, previousGradeText, gradeText) => {
@@ -63,10 +61,10 @@ class SubjectListElementController(val subjectLabel: Label,
 
 
   def gradeValueKeyPress(event: KeyEvent): Unit = {
-    val key = event.getCode()
+    val key = event.getCode
 
     key match {
-      case KeyCode.ENTER | KeyCode.TAB => {
+      case KeyCode.ENTER | KeyCode.TAB =>
         if (GradeMatcher(subjectGrade.text()).isCorrect()) {
           val gradeValue = subjectGrade.text().toDouble
           val grade = Grade(gradeValue)
@@ -78,8 +76,7 @@ class SubjectListElementController(val subjectLabel: Label,
           mainController.updateResults()
           updatePassing(false)
         }
-      }
-      case _ => {}
+      case _ =>
     }
   }
 

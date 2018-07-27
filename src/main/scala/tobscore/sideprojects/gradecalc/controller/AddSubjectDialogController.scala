@@ -1,19 +1,14 @@
 package tobscore.sideprojects.gradecalc.controller
 
-import javafx.css.PseudoClass
-
-import scalafx.Includes._
-import scalafx.scene.control.{Alert, Button, ComboBox, TextField}
-import javafx.stage.Stage
-
 import com.typesafe.scalalogging.Logger
-import tobscore.sideprojects.gradecalc.MutableSubject
-import tobscore.sideprojects.gradecalc.grade.{FailPass, Grade, GradeMatcher, Passable}
-
+import javafx.css.PseudoClass
+import javafx.stage.Stage
+import scalafx.Includes._
 import scalafx.beans.property.{BooleanProperty, IntegerProperty, StringProperty}
-import scalafx.scene.control.Alert.AlertType
-import scalafx.scene.control._
+import scalafx.scene.control.{Button, ComboBox, TextField, _}
 import scalafxml.core.macros.sfxml
+import tobscore.sideprojects.gradecalc.MutableSubject
+import tobscore.sideprojects.gradecalc.grade.{Grade, GradeMatcher}
 
 trait MainControllerReceiver {
   def initController(controller: MainControllerInterface): Unit
@@ -35,7 +30,7 @@ class AddSubjectDialogController(val subjectIdentifier: TextField,
   var mainController: Option[MainControllerInterface] = None
   var elementController: Option[SubjectListElementControllerInterface] = None
   val logger = Logger(classOf[AddSubjectDialogController])
-  val errorStyle = PseudoClass.getPseudoClass("error")
+  val errorStyle: PseudoClass = PseudoClass.getPseudoClass("error")
   val subject = new MutableSubject[Grade](StringProperty(""), None, weight = IntegerProperty(1), IntegerProperty(0), None, BooleanProperty(false))
   subject.name <==> subjectIdentifier.text
 

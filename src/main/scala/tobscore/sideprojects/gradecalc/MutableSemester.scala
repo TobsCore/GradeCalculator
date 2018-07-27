@@ -22,7 +22,7 @@ case class MutableSemester(semesterNumber: Int) {
 
   }
 
-  def reset(semester: Semester) = {
+  def reset(semester: Semester): Unit = {
     subjects.clear()
     semester.subjects.map(_.toMutableSubject).foreach(subjects += _)
   }
@@ -31,33 +31,31 @@ case class MutableSemester(semesterNumber: Int) {
 
 
   private def calcResult(): Double = {
-    logger.info("In Mutable semester")
     var weightSum = 0
     var gradeAccumulator: Int = 0
     subjects.map(_.result.get).filter(_.isInstanceOf[Grade]).map(_.asInstanceOf[Grade]).foldLeft(0.0)((a: Double, b: Grade) => b.grade + a)
 
     for (subject <- subjects) {
       subject.result.get match {
-        case subjectGrade: Grade => {
+        case subjectGrade: Grade =>
           weightSum += subject.weight()
           gradeAccumulator += subject.weight() * subjectGrade.grade
-        }
-        case _ => {}
+        case _ =>
       }
     }
     val gradeAccumulatorDoubleVal: Double = gradeAccumulator / 10.0
-    val averageGrade: Double = (gradeAccumulatorDoubleVal / weightSum)
+    val averageGrade: Double = gradeAccumulatorDoubleVal / weightSum
 
-    return averageGrade
+    averageGrade
   }
 
   def result(): Option[_ <: Passable] = {
     def containsFailedSubject(): Boolean = {
-      subjects.filter(_.isFail.getOrElse(true)).nonEmpty
+      subjects.exists(_.isFail.getOrElse(true))
     }
 
     def containsGrades(): Boolean = {
-      subjects.map(_.result.get).filter(_.isInstanceOf[Grade]).nonEmpty
+      subjects.map(_.result.get).exists(_.isInstanceOf[Grade])
     }
 
     if (subjects.isEmpty) {
@@ -74,8 +72,8 @@ case class MutableSemester(semesterNumber: Int) {
     }
   }
 
-  def toSerializable(): Semester = {
-    val serializableSubjects = subjects.map(subject => subject.toSubject()).toList
+  def toSerializable: Semester = {
+    val serializableSubjects = subjects.map(subject => subject.toSubject).toList
     Semester(semesterNumber, serializableSubjects)
   }
 }

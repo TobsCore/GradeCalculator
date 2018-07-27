@@ -1,6 +1,7 @@
 package tobscore.sideprojects.gradecalc
 
 import java.io.IOException
+import java.net.URL
 
 import scalafx.application.JFXApp
 import scalafx.application.JFXApp.PrimaryStage
@@ -14,7 +15,7 @@ import scalafxml.core.{FXMLView, NoDependencyResolver}
 object GradeCalculator extends JFXApp {
 
   private val layoutFile: String = "/GradeCalculator.fxml"
-  val resource = getClass.getResource(layoutFile)
+  val resource: URL = getClass.getResource(layoutFile)
 
   if (resource == null) {
     throw new IOException(s"Cannot load resource: $layoutFile")

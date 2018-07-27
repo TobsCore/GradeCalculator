@@ -1,10 +1,8 @@
 package tobscore.sideproject.gradecalc
 
 import org.scalatest.{BeforeAndAfter, FunSuite}
-import tobscore.sideprojects.gradecalc.{Professor, MutableSubject}
 import tobscore.sideprojects.gradecalc.grade.{Fail, FailPass, Grade, Pass}
-
-import scalafx.beans.property.IntegerProperty
+import tobscore.sideprojects.gradecalc.{MutableSubject, Professor}
 
 /**
   * Created by Tobias Kerst on 06.03.17.
@@ -81,17 +79,17 @@ class SubjectTest extends FunSuite with BeforeAndAfter {
   }
 
   test("Checking if subject is graded") {
-    assert(inMemoryDatabases.isGraded().get)
+    assert(inMemoryDatabases.isGraded.get)
   }
 
   test("Checking if subject with no grade yet is graded") {
     val exSub = MutableSubject[Grade]("Example Subject", None)
     assertResult(None) {
-      exSub.isGraded()
+      exSub.isGraded
     }
   }
 
   test("Checking if fail/pass subject is graded") {
-    assert(!computerVisionLab.isGraded().get)
+    assert(!computerVisionLab.isGraded.get)
   }
 }

@@ -1,25 +1,24 @@
 package tobscore.sideprojects.gradecalc
 
-import tobscore.sideprojects.gradecalc.grade.{Grade, Fail, Pass, Passable}
+import tobscore.sideprojects.gradecalc.grade.{Fail, Grade, Pass, Passable}
 
-import scala.util.control.Breaks._
 import scala.collection.mutable.ListBuffer
 
 /**
   * Created by Tobias Kerst on 06.03.17.
   */
 class Module(name: String, professor: String) {
-  def -=(subjectList: List[MutableSubject[_ <: Passable]]) = subjectList.foreach(subjects -= _)
+  def -=(subjectList: List[MutableSubject[_ <: Passable]]): Unit = subjectList.foreach(subjects -= _)
 
-  def -=(subject: MutableSubject[_ <: Passable]) = subjects -= subject
+  def -=(subject: MutableSubject[_ <: Passable]): ListBuffer[MutableSubject[_ <: Passable]] = subjects -= subject
 
   def result: scala.Option[_ <: Passable] = {
     def containsFailedSubject(): Boolean = {
-      subjects.filter(_.isFail.getOrElse(true)).nonEmpty
+      subjects.exists(_.isFail.getOrElse(true))
     }
 
     def containsGrades(): Boolean = {
-      subjects.map(_.result.get).filter(_.isInstanceOf[Grade]).nonEmpty
+      subjects.map(_.result.get).exists(_.isInstanceOf[Grade])
     }
 
     if (subjects.isEmpty) {
@@ -36,15 +35,14 @@ class Module(name: String, professor: String) {
 
       for (subject <- subjects) {
         subject.result.get match {
-          case subjectGrade: Grade => {
+          case subjectGrade: Grade =>
             weightSum += subject.weight()
             gradeAccumulator += subject.weight() * subjectGrade.grade
-          }
-          case _ => {}
+          case _ =>
         }
       }
       val gradeAccumulatorDoubleVal: Double = gradeAccumulator / 10.0
-      val averageGrade: Double = (gradeAccumulatorDoubleVal / weightSum)
+      val averageGrade: Double = gradeAccumulatorDoubleVal / weightSum
       Some(Grade(averageGrade))
     } else {
       None

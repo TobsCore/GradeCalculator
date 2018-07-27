@@ -71,9 +71,9 @@ class MutableSemesterTest extends FunSuite with BeforeAndAfter {
     val subject2 = MutableSubject[Grade]("Graded subject", Some(Grade(2.3)))
 
     semester += List(subject1, subject2)
-    val serializableSemester = semester.toSerializable()
+    val serializableSemester = semester.toSerializable
 
-    assertResult(subject1.toSubject()) {
+    assertResult(subject1.toSubject) {
       serializableSemester.subjects.head
     }
   }

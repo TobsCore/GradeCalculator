@@ -9,8 +9,8 @@ import scalafx.beans.property.{BooleanProperty, IntegerProperty, StringProperty}
   */
 case class MutableSubject[T <: Passable](var name: StringProperty, var result: Option[T], var weight: IntegerProperty, var attempts: IntegerProperty, var instructor: Option[Professor], var isFinished: BooleanProperty) {
 
-  def isGraded(): Option[Boolean] = result match {
-    case Some(result) => Some(result.isGraded)
+  def isGraded: Option[Boolean] = result match {
+    case Some(res) => Some(res.isGraded)
     case None => None
   }
 
@@ -27,7 +27,7 @@ case class MutableSubject[T <: Passable](var name: StringProperty, var result: O
     case Some(pass) => Some(pass.isFail)
   }
 
-  def toSubject(): Subject[T] = {
+  def toSubject: Subject[T] = {
     Subject(name(), result, weight(), attempts(), instructor, isFinished())
   }
 }
@@ -36,8 +36,8 @@ object MutableSubject {
   def apply[T <: Passable](name: String, result: Option[T], weight: Int = 1, attempts: Int = 1, professor: Option[Professor], isFinished: Boolean): MutableSubject[T] =
     new MutableSubject[T](StringProperty(name), result, IntegerProperty(weight), IntegerProperty(attempts), professor, BooleanProperty(isFinished))
 
-  def apply[T <: Passable](name: String, result: Option[T]): MutableSubject[T] = apply(name, result, 1, 1, None, false)
-  def apply[T <: Passable](name: String, result: Option[T], weight: Int): MutableSubject[T] = apply(name, result, weight, 1, None, false)
+  def apply[T <: Passable](name: String, result: Option[T]): MutableSubject[T] = apply(name, result, 1, 1, None, isFinished = false)
+  def apply[T <: Passable](name: String, result: Option[T], weight: Int): MutableSubject[T] = apply(name, result, weight, 1, None, isFinished = false)
 
 
 }

@@ -23,7 +23,7 @@ class SerializationTest extends FunSuite with BeforeAndAfter {
   }
 
   test("Testing subject serialization and deserialization") {
-    val originalSubject: Subject[Grade] = MutableSubject[Grade](StringProperty("Example Subject"), Some(Grade(1.3)), IntegerProperty(2), IntegerProperty(0), Some(Professor("Prof. Dr. Professorson")), BooleanProperty(false)).toSubject()
+    val originalSubject: Subject[Grade] = MutableSubject[Grade](StringProperty("Example Subject"), Some(Grade(1.3)), IntegerProperty(2), IntegerProperty(0), Some(Professor("Prof. Dr. Professorson")), BooleanProperty(false)).toSubject
 
     val serializer = new Serializer[Subject[Grade]]()
     serializer.serialize(originalSubject, "/tmp/subject")
@@ -37,7 +37,7 @@ class SerializationTest extends FunSuite with BeforeAndAfter {
   test("Testing semester serialization and deserialization") {
     val originSemester = MutableSemester(1)
     originSemester += MutableSubject[Grade]("ExampleSubject", Some(Grade(2.3)), 3)
-    val serializableSemester = originSemester.toSerializable()
+    val serializableSemester = originSemester.toSerializable
 
     val serializer = new Serializer[Semester]()
     serializer.serialize(serializableSemester, "/tmp/semesterSimple")
