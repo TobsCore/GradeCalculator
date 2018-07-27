@@ -52,14 +52,17 @@ class SubjectListElementController(val subjectLabel: Label,
     }
   })
 
-  def updatePassing(passing: Boolean): Unit =
-    if (passing) {
-      subjectPassing.text() = "Bestanden"
-      subjectPassing.pseudoClassStateChanged(failingStyle, false)
-    } else {
-      subjectPassing.text() = "Nicht bestanden"
-      subjectPassing.pseudoClassStateChanged(failingStyle, true)
-    }
+  def updatePassing(passing: Option[Boolean]): Unit = passing match {
+    case Some(pass) =>
+      if (pass) {
+        subjectPassing.text() = "Bestanden"
+        subjectPassing.pseudoClassStateChanged(failingStyle, false)
+      } else {
+        subjectPassing.text() = "Nicht bestanden"
+        subjectPassing.pseudoClassStateChanged(failingStyle, true)
+      }
+    case None => subjectPassing.text() = ""
+  }
 
   def gradeValueKeyPress(event: KeyEvent): Unit = {
     val key = event.getCode
@@ -71,11 +74,11 @@ class SubjectListElementController(val subjectLabel: Label,
           val grade = Grade(gradeValue)
           subject.result = Some(grade)
           mainController.updateResults()
-          updatePassing(grade.isPass)
+          updatePassing(Some(grade.isPass))
         } else if (subjectGrade.text().length == 0) {
           subject.result = None
           mainController.updateResults()
-          updatePassing(false)
+          updatePassing(None)
         }
       case _ =>
     }
@@ -120,7 +123,7 @@ class SubjectListElementController(val subjectLabel: Label,
     subjectLabel.text <==> subject.name
     subjectFinished.selected <==> subject.isFinished
     subjectGrade.text() = subject.result.getOrElse("").toString
-    updatePassing(subject.isPass.getOrElse(false))
+    updatePassing(subject.isPass)
   }
 
   override def setMainController(controller: MainControllerInterface): Unit = {
