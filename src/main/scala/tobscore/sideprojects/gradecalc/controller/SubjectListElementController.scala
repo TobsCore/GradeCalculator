@@ -65,9 +65,7 @@ class SubjectListElementController(val subjectLabel: Label,
   }
 
   def gradeValueKeyPress(event: KeyEvent): Unit = {
-    val key = event.getCode
-
-    key match {
+    event.getCode match {
       case KeyCode.ENTER | KeyCode.TAB =>
         if (GradeMatcher(subjectGrade.text()).isCorrect()) {
           val gradeValue = subjectGrade.text().toDouble

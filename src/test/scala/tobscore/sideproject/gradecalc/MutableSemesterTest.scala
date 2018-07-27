@@ -37,13 +37,13 @@ class MutableSemesterTest extends FunSuite with BeforeAndAfter {
     val subject = MutableSubject[FailPass]("Subject", Some(Pass()))
     semester += subject
     assertResult(Pass()) {
-      semester.result.get
+      semester.result().get
     }
   }
 
   test("Semester with no classes") {
     assertResult(None) {
-      semester.result
+      semester.result()
     }
   }
 
@@ -52,7 +52,7 @@ class MutableSemesterTest extends FunSuite with BeforeAndAfter {
     val subjectGradedPass = MutableSubject[Grade]("Subject Graded and Passing", Some(Grade(1.3)))
     semester += List(subjectPass, subjectGradedPass)
     assertResult(Grade(1.3)) {
-      semester.result.get
+      semester.result().get
     }
 
   }
@@ -62,7 +62,16 @@ class MutableSemesterTest extends FunSuite with BeforeAndAfter {
     val subjectPassGraded = MutableSubject[Grade]("Grades Subject", Some(Grade(2.3)))
     semester += List(subjectFail, subjectPassGraded)
     assertResult(Fail()) {
-      semester.result.get
+      semester.result().get
+    }
+  }
+
+  test("Result of an ungraded subject and an already graded subject") {
+    val subjectGraded = MutableSubject[Grade]("Grades Subject", Some(Grade(2.3)))
+    val subjectUngraded = MutableSubject[Grade]("Ungraded Subject", None)
+    semester += List(subjectGraded, subjectUngraded)
+    assertResult(Grade(2.3)) {
+      semester.result().get
     }
   }
 

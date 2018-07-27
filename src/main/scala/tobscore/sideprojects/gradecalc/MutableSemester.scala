@@ -32,13 +32,14 @@ case class MutableSemester(semesterNumber: Int) {
   private def calcResult(): Double = {
     var weightSum = 0
     var gradeAccumulator: Int = 0
-    subjects
+    val subjectsWithResults = subjects.filter(_.result.isDefined)
+    subjectsWithResults
       .map(_.result.get)
       .filter(_.isInstanceOf[Grade])
       .map(_.asInstanceOf[Grade])
       .foldLeft(0.0)((a: Double, b: Grade) => b.grade + a)
 
-    for (subject <- subjects) {
+    for (subject <- subjectsWithResults) {
       subject.result.get match {
         case subjectGrade: Grade =>
           weightSum += subject.weight()
@@ -54,11 +55,11 @@ case class MutableSemester(semesterNumber: Int) {
 
   def result(): Option[_ <: Passable] = {
     def containsFailedSubject(): Boolean = {
-      subjects.exists(_.isFail.getOrElse(true))
+      subjects.exists(_.isFail.getOrElse(false))
     }
 
     def containsGrades(): Boolean = {
-      subjects.map(_.result.get).exists(_.isInstanceOf[Grade])
+      subjects.filter(_.result.isDefined).map(_.result.get).exists(_.isInstanceOf[Grade])
     }
 
     if (subjects.isEmpty) {
