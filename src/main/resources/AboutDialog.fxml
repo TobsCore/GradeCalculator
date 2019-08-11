@@ -1,52 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="274.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="200.0" minWidth="-Infinity" prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <AnchorPane BorderPane.alignment="CENTER">
          <children>
-            <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="320.0" prefWidth="640.0" VBox.vgrow="ALWAYS">
-               <children>
-                  <ImageView fitHeight="234.0" fitWidth="258.0" layoutX="14.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@Logo.png" />
-                     </image>
-                  </ImageView>
-                  <AnchorPane layoutX="277.0" layoutY="44.0" prefHeight="230.0" prefWidth="341.0">
-                     <children>
-                        <Label fx:id="ApplicationName" layoutX="14.0" layoutY="3.0" text="Grade Calculator">
-                           <font>
-                              <Font name="System Bold" size="18.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="Version" layoutX="14.0" layoutY="93.0" text="Version 0.1" textFill="#908080">
-                           <font>
-                              <Font size="10.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="Creator" layoutX="14.0" layoutY="108.0" text="By Tobias Kerst" textFill="#908080">
-                           <font>
-                              <Font size="10.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="Date" layoutX="14.0" layoutY="124.0" text="Written in 2017" textFill="#908080">
-                           <font>
-                              <Font size="10.0" />
-                           </font>
-                        </Label>
-                        <Hyperlink fx:id="RepoReference" layoutX="9.0" layoutY="46.0" style="-fx-border-width: 0;" text="https://github.com/TobsCore/GradeCalculator" textFill="#3276e4">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                        </Hyperlink>
-                     </children>
-                  </AnchorPane>
-               </children>
-            </AnchorPane>
+            <Label text="Grade Calculator">
+               <font>
+                  <Font name="System Bold" size="19.0" />
+               </font>
+               <padding>
+                  <Insets bottom="20.0" />
+               </padding>
+            </Label>
+         </children>
+      </AnchorPane>
+   </top>
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="This program is written as a fun project and is used to calculate one's grade. It uses the grading system that is common in Germany." wrapText="true" />
          </children>
       </VBox>
+   </center>
+   <bottom>
+      <VBox BorderPane.alignment="CENTER">
+         <children>
+            <VBox>
+               <children>
+                  <Label fx:id="Version" text="Version 0.1" textFill="#999999">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="Creator" text="By Tobias Kerst" textFill="#999999">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="Date" text="Written in 2019" textFill="#999999">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Label>
+               </children>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="10.0" />
+               </VBox.margin>
+            </VBox>
+            <Hyperlink style="-fx-border-width: 0;" text="https://github.com/TobsCore/GradeCalculator">
+               <font>
+                  <Font size="10.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="7.0" />
+               </VBox.margin>
+            </Hyperlink>
+         </children>
+         <BorderPane.margin>
+            <Insets left="20.0" />
+         </BorderPane.margin>
+      </VBox>
+   </bottom>
+   <padding>
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+   </padding>
+</BorderPane>
