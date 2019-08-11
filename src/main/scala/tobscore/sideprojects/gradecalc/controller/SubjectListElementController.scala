@@ -6,6 +6,7 @@ import com.typesafe.scalalogging.Logger
 import javafx.css.PseudoClass
 import javafx.scene.input.{KeyCode, KeyEvent}
 import javafx.{scene => jfxs}
+import javax.swing.event.{ChangeEvent, ChangeListener}
 import scalafx.Includes._
 import scalafx.scene.control._
 import scalafx.stage.{Modality, Stage}
@@ -51,6 +52,15 @@ class SubjectListElementController(val subjectLabel: Label,
       subjectGrade.pseudoClassStateChanged(errorStyle, false)
     }
   })
+
+  // Update the overall grade when the focus on a field is lost. This is helpful, when the user is not explicitly hitting "enter".
+  subjectGrade.focusedProperty
+    .addListener { (_, _, newGrade) =>
+      // This will be true, if the case of focus loss on the text field.
+      if (!newGrade) {
+        mainController.updateResults()
+      }
+    }
 
   def updatePassing(passing: Option[Boolean]): Unit = passing match {
     case Some(pass) =>
