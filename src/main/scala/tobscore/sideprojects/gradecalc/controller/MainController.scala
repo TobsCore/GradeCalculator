@@ -15,12 +15,14 @@ import scalafx.stage.{FileChooser, Modality, Stage}
 import scalafxml.core.macros.sfxml
 import scalafxml.core.{FXMLLoader, FXMLView, NoDependencyResolver}
 import tobscore.sideprojects.gradecalc._
-import tobscore.sideprojects.gradecalc.grade.{Fail, Grade, Pass}
+import tobscore.sideprojects.gradecalc.grade.{Fail, Grade, Pass, Passable}
 
 trait MainControllerInterface {
   def addSubject(subject: MutableSubject[Grade]): Unit
 
   def updateResults(): Unit
+
+  def deleteSubject(subject: MutableSubject[_ <: Passable]): Boolean
 }
 
 /**
@@ -120,6 +122,19 @@ class MainController(val subjectList: VBox, val resultLabel: Label, val exactGra
     }
   }
 
+  override def deleteSubject(subject: MutableSubject[_ <: Passable]): Boolean = {
+    val deleted = semester.subjects.remove(subject)
+    val first = subjectList.lookup(s"#${subject.id}")
+    if (first != null) {
+      subjectList.children.remove(first)
+    } else {
+      logger.warn(s"Cannot delete $subject from FX Tree")
+    }
+    // After deleting items from underlying structure and visible tree update the results
+    updateResults()
+    deleted
+  }
+
   def clearAndNew(): Unit = {
     subjectList.children.clear()
     logger.info("Deleting existing subjects")
@@ -146,12 +161,13 @@ class MainController(val subjectList: VBox, val resultLabel: Label, val exactGra
       val controller = loader.getController[SubjectListElementControllerInterface]
       controller.setMainController(this)
       controller.setModel(subject)
+      root.setId(subject.id)
 
       subjectList.children.add(root)
     }
 
     if (semester += subject) {
-      logger.info(s"Adding subject ${subject.name}")
+      logger.info(s"Adding subject ${subject.name.value}")
       populateView()
       updateResults()
     } else {

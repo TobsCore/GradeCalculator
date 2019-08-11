@@ -44,6 +44,7 @@ case class MutableSubject[T <: Passable](var name: StringProperty,
     case _ => false
   }
 
+  def id: String = "subj-" + name.value.hashCode
 }
 
 object MutableSubject {
