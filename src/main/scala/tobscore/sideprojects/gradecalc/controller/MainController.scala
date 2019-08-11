@@ -62,10 +62,6 @@ class MainController(val subjectList: VBox, val resultLabel: Label, val exactGra
     }
   }
 
-  def resetSubjectList(): Unit = {
-    subjectList.children.clear()
-  }
-
   def displayNewSubjectDialog(): Unit = {
     val addSubjectDialogFXML: String = "/AddSubjectDialog.fxml"
     val resource = getClass.getResource(addSubjectDialogFXML)
@@ -99,20 +95,25 @@ class MainController(val subjectList: VBox, val resultLabel: Label, val exactGra
       logger.info(s"Importing preset from ${file.getAbsolutePath}")
 
       val importedSemester = serializer.deserialize(file.getAbsolutePath)
-      semester.reset(importedSemester)
-      resetSubjectList()
-
       logger.debug(s"Loaded semester with ${importedSemester.subjects.length} subjects")
+      semester.reset()
+      subjectList.children.clear()
+      logger.debug(s"Semester count before import: ${semester.subjects.size}")
+      importedSemester.subjects
+        .map(_.toMutableSubject)
+        .map(e => e.asInstanceOf[MutableSubject[Grade]])
+        .foreach(e => addSubject(e))
 
-      semester.subjects.map(a => a.asInstanceOf[MutableSubject[Grade]]).foreach(addSubject)
+      logger.debug(s"Semester count after import: ${semester.subjects.size}")
     }
   }
 
   def exportPreset(): Unit = {
-
     val file: File = fileChooser.showSaveDialog(subjectList.getScene.getWindow)
     if (file != null) {
-      val serializableSemester = semester.toSerializable
+      logger.debug(s"Couting semesters: ${semester.subjects.size}")
+      val serializableSemester: Semester = semester.toSerializable
+      logger.debug(s"Exporting: ${serializableSemester.subjects.size} semesters")
       serializer.serialize(serializableSemester, file.getAbsolutePath)
       logger.info(s"Exporting preset to ${file.getAbsolutePath}")
     }

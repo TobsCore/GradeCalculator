@@ -22,9 +22,8 @@ case class MutableSemester(semesterNumber: Int) {
 
   }
 
-  def reset(semester: Semester): Unit = {
+  def reset(): Unit = {
     subjects.clear()
-    semester.subjects.map(_.toMutableSubject).foreach(subjects += _)
   }
 
   def exactGradeResult(): Double = calcResult()
