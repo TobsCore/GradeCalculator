@@ -4,14 +4,14 @@ scalaVersion := "2.12.9"
 
 test in assembly := {}
 
-libraryDependencies += "org.scalactic" %% "scalactic" % "3.0.1"
-libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.1" % "test"
-libraryDependencies += "org.scalafx" %% "scalafx" % "8.0.102-R11"
+libraryDependencies += "org.scalactic" %% "scalactic" % "3.0.8"
+libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.8" % "test"
+libraryDependencies += "org.scalafx" %% "scalafx" % "8.0.192-R14"
 libraryDependencies += "org.scalafx" %% "scalafxml-core-sfx8" % "0.4"
 libraryDependencies += "eu.lestard" % "advanced-bindings" % "0.4.0"
 
 libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.2.3"
-libraryDependencies += "com.typesafe.scala-logging" %% "scala-logging" % "3.7.2"
+libraryDependencies += "com.typesafe.scala-logging" %% "scala-logging" % "3.9.2"
 
 
 // Includes the JavaFX Stylesheet, when SBT is run from the terminal
