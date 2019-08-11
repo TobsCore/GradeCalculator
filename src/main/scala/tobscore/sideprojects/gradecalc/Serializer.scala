@@ -5,8 +5,10 @@ import java.io.{FileInputStream, FileOutputStream, ObjectInputStream, ObjectOutp
 class Serializer[T]() {
 
   def serialize(obj: T, path: String): Unit = {
+    // First delete file, if it exists
     val oos = new ObjectOutputStream(new FileOutputStream(path))
     oos.writeObject(obj)
+    oos.flush()
     oos.close()
   }
 
