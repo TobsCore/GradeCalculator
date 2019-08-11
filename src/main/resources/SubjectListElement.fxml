@@ -41,7 +41,7 @@
         </CheckBox>
         <MenuButton fx:id="elementMenu" mnemonicParsing="false" text="Bearbeiten" GridPane.columnIndex="4" GridPane.halignment="RIGHT">
             <items>
-                <MenuItem mnemonicParsing="false" onAction="#editEntry" text="Bearbeiten" />
+                <MenuItem mnemonicParsing="false" disable="true" onAction="#editEntry" text="Bearbeiten" />
                 <MenuItem mnemonicParsing="false" onAction="#deleteEntry" text="Löschen" />
             </items>
             <font>
