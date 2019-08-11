@@ -118,6 +118,11 @@ class MainController(val subjectList: VBox, val resultLabel: Label, val exactGra
     }
   }
 
+  def clearAndNew(): Unit = {
+    subjectList.children.clear()
+    logger.info("Deleting existing subjects")
+  }
+
   def quitApplication(): Unit = {
     Platform.exit()
     System.exit(0)

@@ -30,6 +30,7 @@
                     <KeyCodeCombination code="S" alt="UP" control="UP" meta="UP" shift="UP" shortcut="DOWN"/>
                 </accelerator>
             </MenuItem>
+            <MenuItem disable="false" mnemonicParsing="false" text="Neu" onAction="#clearAndNew" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem disable="true" mnemonicParsing="false" text="Einstellungen…" />
             <SeparatorMenuItem mnemonicParsing="false" />
