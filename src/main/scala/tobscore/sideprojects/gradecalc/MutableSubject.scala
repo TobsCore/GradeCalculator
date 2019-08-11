@@ -35,6 +35,15 @@ case class MutableSubject[T <: Passable](var name: StringProperty,
   def toSubject: Subject[T] = {
     Subject(name(), result, weight(), attempts(), instructor, isFinished())
   }
+
+  override def hashCode(): Int = name.getValue.hashCode
+
+  override def equals(obj: Any): Boolean = obj match {
+    case obj: MutableSubject[_] =>
+      name.getValue.equals(obj.name.getValue)
+    case _ => false
+  }
+
 }
 
 object MutableSubject {

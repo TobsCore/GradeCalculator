@@ -3,27 +3,33 @@ package tobscore.sideprojects.gradecalc
 import com.typesafe.scalalogging.Logger
 import tobscore.sideprojects.gradecalc.grade._
 
-import scala.collection.mutable.ListBuffer
+import scala.collection.mutable
 
 case class MutableSemester(semesterNumber: Int) {
+
+  def remove(subject: MutableSubject[Nothing]): Boolean = {
+    subjects.remove(subject)
+  }
+
   val logger = Logger(classOf[MutableSemester])
-  val subjects: ListBuffer[MutableSubject[_ <: Passable]] = new ListBuffer
 
-  def +=(subject: MutableSubject[_ <: Passable]): Unit = {
-    subjects += subject
+  val subjects: mutable.LinkedHashSet[MutableSubject[_ <: Passable]] =
+    mutable.LinkedHashSet.empty
+
+  def +=(subject: MutableSubject[_ <: Passable]): Boolean = {
+    subjects.add(subject)
   }
 
-  def +=(subjectList: List[MutableSubject[_ <: Passable]]): Unit = {
-    subjects ++= subjectList
-  }
-
-  def remove(c: Int): Unit = {
-    subjects.remove(c)
-
+  def +=(subjectList: List[MutableSubject[_ <: Passable]]): Boolean = {
+    subjectList.map(subjects.add).foldLeft(true)(_ && _)
   }
 
   def reset(): Unit = {
     subjects.clear()
+  }
+
+  def containsSubject(subject: MutableSubject[_ <: Passable]): Boolean = {
+    subjects.contains(subject)
   }
 
   def exactGradeResult(): Double = calcResult()

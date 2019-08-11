@@ -4,6 +4,8 @@ import org.scalatest.{BeforeAndAfter, FunSuite}
 import tobscore.sideprojects.gradecalc.grade.{Fail, FailPass, Grade, Pass}
 import tobscore.sideprojects.gradecalc.{MutableSemester, MutableSubject}
 
+import scala.collection.mutable
+
 class MutableSemesterTest extends FunSuite with BeforeAndAfter {
 
   var semester: MutableSemester = _
@@ -20,9 +22,9 @@ class MutableSemesterTest extends FunSuite with BeforeAndAfter {
   test("Remove a subject from semester") {
     var subject1 = MutableSubject("Subject 1", None)
     semester += subject1
-    semester.remove(0)
+    semester.remove(subject1)
     assertResult(0) {
-      semester.subjects.length
+      semester.subjects.size
     }
   }
 
@@ -85,5 +87,36 @@ class MutableSemesterTest extends FunSuite with BeforeAndAfter {
     assertResult(subject1.toSubject) {
       serializableSemester.subjects.head
     }
+  }
+
+  test("Check hashCode/equals of same mutable Subjects") {
+    val name = "TestName"
+    val subject1 = MutableSubject[FailPass](name, Some(Pass()))
+    val subject2 = MutableSubject[FailPass](name, Some(Pass()))
+
+    assertResult(subject1.hashCode()) { subject2.hashCode() }
+    assert(subject1.equals(subject1))
+    assert(subject2.equals(subject2))
+    assert(subject1.equals(subject2))
+  }
+
+  test("Add same subject twice") {
+    val name = "TestName"
+    val subject1 = MutableSubject[FailPass](name, Some(Pass()))
+    val subject2 = MutableSubject[FailPass](name, Some(Pass()))
+
+    semester += subject1
+    semester += subject2
+    assertResult(1) { semester.subjects.size }
+  }
+
+  test("Insert subject with same name and different types") {
+    val name = "TestName"
+    val subject1 = MutableSubject[FailPass](name, Some(Pass()))
+    val subject2 = MutableSubject[Grade](name, Some(Grade(2.3)))
+
+    semester += subject1
+    assertResult(false) { semester += subject2 }
+    assertResult(1) { semester.subjects.size }
   }
 }

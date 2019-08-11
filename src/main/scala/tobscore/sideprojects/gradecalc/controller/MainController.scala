@@ -7,7 +7,8 @@ import javafx.scene.layout.GridPane
 import javafx.{scene => jfxs}
 import scalafx.Includes._
 import scalafx.application.Platform
-import scalafx.scene.control.Label
+import scalafx.scene.control.Alert.AlertType
+import scalafx.scene.control.{Alert, Label}
 import scalafx.scene.layout.VBox
 import scalafx.stage.FileChooser.ExtensionFilter
 import scalafx.stage.{FileChooser, Modality, Stage}
@@ -149,10 +150,13 @@ class MainController(val subjectList: VBox, val resultLabel: Label, val exactGra
       subjectList.children.add(root)
     }
 
-    logger.info(s"Adding subject ${subject.name}")
-    populateView()
-    semester += subject
-    updateResults()
+    if (semester += subject) {
+      logger.info(s"Adding subject ${subject.name}")
+      populateView()
+      updateResults()
+    } else {
+      new Alert(AlertType.Warning, s"Subject ${subject.name.value} already exists").showAndWait()
+    }
   }
 
   override def updateResults(): Unit = {

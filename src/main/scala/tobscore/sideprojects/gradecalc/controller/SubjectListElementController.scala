@@ -111,7 +111,7 @@ class SubjectListElementController(val subjectLabel: Label,
   }
 
   def deleteEntry(): Unit = {
-    logger.info(s"Deleting entry ${subjectLabel.text()}")
+    logger.info(s"<Not implemented> Deleting entry ${subjectLabel.text()}")
   }
 
   def toggleFinished(): Unit = {}

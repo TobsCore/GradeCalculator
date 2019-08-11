@@ -1,7 +1,5 @@
 package tobscore.sideproject.gradecalc
 
-import java.io._
-
 import org.scalatest.{BeforeAndAfter, FunSuite}
 import tobscore.sideprojects.gradecalc._
 import tobscore.sideprojects.gradecalc.grade.Grade
@@ -23,7 +21,14 @@ class SerializationTest extends FunSuite with BeforeAndAfter {
   }
 
   test("Testing subject serialization and deserialization") {
-    val originalSubject: Subject[Grade] = MutableSubject[Grade](StringProperty("Example Subject"), Some(Grade(1.3)), IntegerProperty(2), IntegerProperty(0), Some(Professor("Prof. Dr. Professorson")), BooleanProperty(false)).toSubject
+    val originalSubject: Subject[Grade] = MutableSubject[Grade](
+      StringProperty("Example Subject"),
+      Some(Grade(1.3)),
+      IntegerProperty(2),
+      IntegerProperty(0),
+      Some(Professor("Prof. Dr. Professorson")),
+      BooleanProperty(false)
+    ).toSubject
 
     val serializer = new Serializer[Subject[Grade]]()
     serializer.serialize(originalSubject, "/tmp/subject")
@@ -41,10 +46,10 @@ class SerializationTest extends FunSuite with BeforeAndAfter {
 
     val serializer = new Serializer[Semester]()
     serializer.serialize(serializableSemester, "/tmp/semesterSimple")
-    val deserializedSemester = serializer.deserialize("/tmp/semesterSimple")
+    val deserializeSemester: Semester = serializer.deserialize("/tmp/semesterSimple")
 
     assertResult(serializableSemester) {
-      deserializedSemester
+      deserializeSemester
     }
   }
 }
